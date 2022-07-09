@@ -16,7 +16,7 @@ import {
   CheckboxContainer,
   Checkbox,
   Paragraph,
-  Link,
+  LinkTag,
   Button,
   SignUp,
 } from './Login.styled'
@@ -57,17 +57,15 @@ const Login = () => {
                   Remember me
                 </Paragraph>
               </CheckboxContainer>
-              <Link as='a' href='#'>
-                Forgot password?
-              </Link>
+              <LinkTag to='#'>Forgot password?</LinkTag>
             </FormMetaData>
             <Button>Sign In</Button>
           </FormContainer>
           <SignUp>
             <Paragraph>Don't have an account?</Paragraph>
-            <Link black as='a' href='/register'>
+            <LinkTag black='true' to='/register'>
               Sign Up
-            </Link>
+            </LinkTag>
           </SignUp>
         </ColumnContent>
       </Column>

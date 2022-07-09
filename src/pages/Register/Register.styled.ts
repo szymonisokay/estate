@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-interface Props {
-  black?: boolean | string
-}
-
 export const PageWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -62,7 +58,7 @@ export const FormContainer = styled.form`
   gap: 25px;
 `
 
-export const FormInputContainer = styled.div`
+export const FormInputContainer = styled.div<{ isError?: boolean }>`
   width: 100%;
   padding: 16px 25px;
   box-shadow: 0px 5px 40px 0px #0b0b0b26;
@@ -70,9 +66,12 @@ export const FormInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  border: 1px solid
+    ${(props) => (props.isError ? `var(--error)` : `transparent`)};
 `
 
 export const Input = styled.input`
+  flex: 2;
   border: none;
   outline: none;
   font-size: 16px;
@@ -100,8 +99,8 @@ export const Paragraph = styled.p`
   color: var(--gray);
 `
 
-export const LinkTag = styled(Link)<Props>`
-  color: ${(props) => (props.black ? 'var(--black)' : 'var(--gray)')};
+export const LinkTag = styled(Link)`
+  color: var(--black);
   text-decoration: none;
   transition: 200ms;
 
