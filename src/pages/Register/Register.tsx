@@ -21,9 +21,10 @@ import {
 import { SignUpFormDataModel } from '../../models/FormData.model'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../contexts/auth/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const initialSignUpFormData = {
-  name: '',
+  username: '',
   email: '',
   password: '',
   password2: '',
@@ -38,13 +39,14 @@ const Register = () => {
     msg: '',
   })
 
-  const { signUp } = useAuth()
+  const { signUp, user, isLoading } = useAuth()
+  const navigate = useNavigate()
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (
-      !formData.name ||
+      !formData.username ||
       !formData.email ||
       !formData.password ||
       !formData.password2
@@ -62,6 +64,12 @@ const Register = () => {
 
     // setFormData(initialSignUpFormData)
   }
+
+  useEffect(() => {
+    if (!!user && !isLoading) {
+      navigate('/')
+    }
+  }, [user, isLoading, navigate])
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>
@@ -88,18 +96,20 @@ const Register = () => {
             Create an <strong>Estate.</strong> account and start your journey.
           </Text>
           <FormContainer onSubmit={(e) => onFormSubmit(e)}>
-            <FormInputContainer isError={error.value && !formData.name && true}>
+            <FormInputContainer
+              isError={error.value && !formData.username && true}
+            >
               <BiUser size={18} className='svg' />
               <Input
                 id='name'
                 type='text'
                 placeholder='Your name '
-                value={formData.name}
+                value={formData.username}
                 onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
+                  setFormData({ ...formData, username: e.target.value })
                 }
               />
-              {error.value && !formData.name && (
+              {error.value && !formData.username && (
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>
@@ -154,7 +164,7 @@ const Register = () => {
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>
-            <Button>Sign Up</Button>
+            <Button>{isLoading ? 'Loading' : 'Sign Up'}</Button>
           </FormContainer>
           <SignUp>
             <Paragraph>Already have an account?</Paragraph>
