@@ -15,29 +15,56 @@ const AuthContext = createContext<Auth | null>(null)
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const signUp = async (userData: SignUpFormDataModel) => {
     setIsLoading(true)
 
-    await AuthService.signUpUser(userData)
-      .then((user) => {
-        setUser(user)
-        setIsLoading(false)
-      })
-      .catch((err) => console.log(err.response.data.message))
+    if (userData.password !== userData.password2) {
+      setIsError(true)
+      setErrorMessage('Passwords do not match')
+    } else {
+      await AuthService.signUpUser(userData)
+        .then((user) => {
+          setUser(user)
+        })
+        .catch((err) => {
+          setErrorMessage(err.response.data.message)
+          setIsError(true)
+        })
+    }
+
+    setTimeout(() => {
+      setIsError(false)
+      setErrorMessage('')
+    }, 3000)
+    setIsLoading(false)
   }
 
   const signIn = async (userData: SignInFormDataModel) => {
     setIsLoading(true)
 
-    await AuthService.signInUser(userData).then((user) => {
-      setUser(user)
-      setIsLoading(false)
-    })
+    await AuthService.signInUser(userData)
+      .then((user) => {
+        setUser(user)
+      })
+      .catch((err) => {
+        setIsError(true)
+        setErrorMessage(err.response.data.message)
+      })
+
+    setTimeout(() => {
+      setIsError(false)
+      setErrorMessage('')
+    }, 3000)
+    setIsLoading(false)
   }
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, signUp, signIn }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, isError, errorMessage, signUp, signIn }}
+    >
       {children}
     </AuthContext.Provider>
   )

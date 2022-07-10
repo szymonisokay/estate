@@ -6,6 +6,8 @@ import {
 export type Auth = {
   user: User | null
   isLoading: boolean
+  isError: boolean
+  errorMessage: string
 
   signUp: (user: SignUpFormDataModel) => void
   signIn: (user: SignInFormDataModel) => void

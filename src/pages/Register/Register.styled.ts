@@ -40,10 +40,14 @@ export const ColumnContent = styled.div`
   }
 `
 
-export const Logo = styled.div`
+export const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 35px;
+`
+
+export const Logo = styled(Link)`
+  text-decoration: none;
 `
 
 export const Text = styled.p`

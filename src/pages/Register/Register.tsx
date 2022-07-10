@@ -8,6 +8,7 @@ import {
   BuildingImage,
   Column,
   ColumnContent,
+  LogoWrapper,
   Logo,
   Text,
   FormContainer,
@@ -34,53 +35,28 @@ const Register = () => {
   const [formData, setFormData] = useState<SignUpFormDataModel>(
     initialSignUpFormData
   )
-  const [error, setError] = useState<{ value: boolean; msg: string }>({
-    value: false,
-    msg: '',
-  })
 
-  const { signUp, user, isLoading } = useAuth()
+  const { signUp, user, isLoading, isError, errorMessage } = useAuth()
   const navigate = useNavigate()
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.password2
-    ) {
-      setError({ value: true, msg: 'Please fill up required fields' })
-      return
-    }
-
-    if (formData.password !== formData.password2) {
-      setError({ value: true, msg: 'Passwords do not match' })
-      return
-    }
-
     signUp(formData)
-
-    // setFormData(initialSignUpFormData)
   }
 
   useEffect(() => {
     if (!!user && !isLoading) {
-      navigate('/')
+      toast.success('Signed Up successfully!')
+      setTimeout(() => navigate('/'), 1000)
     }
   }, [user, isLoading, navigate])
 
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>
-
-    if (error.value) {
-      toast.error(error.msg)
-      timeout = setTimeout(() => setError({ value: false, msg: '' }), 3000)
+    if (isError) {
+      toast.error(errorMessage)
     }
-
-    return () => clearTimeout(timeout)
-  }, [error])
+  }, [isError, errorMessage])
 
   return (
     <PageWrapper>
@@ -89,16 +65,16 @@ const Register = () => {
       </ImageColumn>
       <Column>
         <ColumnContent>
-          <Logo>
-            <Estate className='logo' />
-          </Logo>
+          <LogoWrapper>
+            <Logo to='/'>
+              <Estate className='logo' />
+            </Logo>
+          </LogoWrapper>
           <Text>
             Create an <strong>Estate.</strong> account and start your journey.
           </Text>
           <FormContainer onSubmit={(e) => onFormSubmit(e)}>
-            <FormInputContainer
-              isError={error.value && !formData.username && true}
-            >
+            <FormInputContainer isError={isError && !formData.username && true}>
               <BiUser size={18} className='svg' />
               <Input
                 id='name'
@@ -109,13 +85,11 @@ const Register = () => {
                   setFormData({ ...formData, username: e.target.value })
                 }
               />
-              {error.value && !formData.username && (
+              {isError && !formData.username && (
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>
-            <FormInputContainer
-              isError={error.value && !formData.email && true}
-            >
+            <FormInputContainer isError={isError && !formData.email && true}>
               <BiEnvelope size={18} className='svg' />
               <Input
                 id='email'
@@ -126,13 +100,11 @@ const Register = () => {
                   setFormData({ ...formData, email: e.target.value })
                 }
               />
-              {error.value && !formData.email && (
+              {isError && !formData.email && (
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>
-            <FormInputContainer
-              isError={error.value && !formData.password && true}
-            >
+            <FormInputContainer isError={isError && !formData.password && true}>
               <BiLockAlt size={18} className='svg' />
               <Input
                 id='password'
@@ -143,12 +115,12 @@ const Register = () => {
                   setFormData({ ...formData, password: e.target.value })
                 }
               />
-              {error.value && !formData.password && (
+              {isError && !formData.password && (
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>
             <FormInputContainer
-              isError={error.value && !formData.password2 && true}
+              isError={isError && !formData.password2 && true}
             >
               <BiLockAlt size={18} className='svg' />
               <Input
@@ -160,7 +132,7 @@ const Register = () => {
                   setFormData({ ...formData, password2: e.target.value })
                 }
               />
-              {error.value && !formData.password2 && (
+              {isError && !formData.password2 && (
                 <BiErrorCircle size={20} color='#ec1313' />
               )}
             </FormInputContainer>

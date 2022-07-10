@@ -1,4 +1,4 @@
-import { FormEvent } from 'react'
+import { FormEvent, useState, useEffect } from 'react'
 import Building from '../../assets/images/Building.png'
 import { ReactComponent as Estate } from '../../assets/svgs/Estate.svg'
 import {
@@ -7,6 +7,7 @@ import {
   Column,
   BuildingImage,
   ColumnContent,
+  LogoWrapper,
   Logo,
   Text,
   FormContainer,
@@ -20,12 +21,44 @@ import {
   Button,
   SignUp,
 } from './Login.styled'
-import { BiEnvelope, BiLockAlt } from 'react-icons/bi'
+import { BiEnvelope, BiErrorCircle, BiLockAlt } from 'react-icons/bi'
+import { SignInFormDataModel } from '../../models/FormData.model'
+import { useAuth } from '../../contexts/auth/AuthContext'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+
+const initialSignInFormData = {
+  email: '',
+  password: '',
+  remember: false,
+}
 
 const Login = () => {
+  const [formData, setFormData] = useState<SignInFormDataModel>(
+    initialSignInFormData
+  )
+
+  const { signIn, user, isLoading, isError, errorMessage } = useAuth()
+  const navigate = useNavigate()
+
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    signIn(formData)
   }
+
+  useEffect(() => {
+    if (!!user && !isLoading) {
+      toast.success('Signed In successfully!')
+      setTimeout(() => navigate('/'), 1000)
+    }
+  }, [user, isLoading, navigate])
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(errorMessage)
+    }
+  }, [isError, errorMessage])
 
   return (
     <PageWrapper>
@@ -34,32 +67,63 @@ const Login = () => {
       </ImageColumn>
       <Column>
         <ColumnContent>
-          <Logo>
-            <Estate className='logo' />
-          </Logo>
+          <LogoWrapper>
+            <Logo to='/'>
+              <Estate className='logo' />
+            </Logo>
+          </LogoWrapper>
           <Text>
             Login into your <strong>Estate.</strong> account and continue your
             journey.
           </Text>
           <FormContainer onSubmit={(e) => onFormSubmit(e)}>
-            <FormInputContainer>
+            <FormInputContainer isError={isError && !formData.email && true}>
               <BiEnvelope size={18} className='svg' />
-              <Input type='email' placeholder='Your email ' />
+              <Input
+                id='email'
+                type='email'
+                placeholder='Your email'
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+              {isError && !formData.email && (
+                <BiErrorCircle size={20} color='#ec1313' />
+              )}
             </FormInputContainer>
-            <FormInputContainer>
+            <FormInputContainer isError={isError && !formData.password && true}>
               <BiLockAlt size={18} className='svg' />
-              <Input type='password' placeholder='Password' />
+              <Input
+                id='password'
+                type='password'
+                placeholder='Password'
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+              {isError && !formData.password && (
+                <BiErrorCircle size={20} color='#ec1313' />
+              )}
             </FormInputContainer>
             <FormMetaData>
               <CheckboxContainer>
-                <Checkbox type='checkbox' id='remember' />
+                <Checkbox
+                  type='checkbox'
+                  id='remember'
+                  checked={formData.remember}
+                  onChange={(e) =>
+                    setFormData({ ...formData, remember: e.target.checked })
+                  }
+                />
                 <Paragraph as='label' htmlFor='remember'>
                   Remember me
                 </Paragraph>
               </CheckboxContainer>
               <LinkTag to='#'>Forgot password?</LinkTag>
             </FormMetaData>
-            <Button>Sign In</Button>
+            <Button>{isLoading ? 'Loading' : 'Sign In'}</Button>
           </FormContainer>
           <SignUp>
             <Paragraph>Don't have an account?</Paragraph>

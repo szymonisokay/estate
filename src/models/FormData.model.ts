@@ -8,4 +8,5 @@ export type SignUpFormDataModel = {
 export type SignInFormDataModel = {
   email: string
   password: string
+  remember: boolean
 }

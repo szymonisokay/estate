@@ -44,10 +44,14 @@ export const ColumnContent = styled.div`
   }
 `
 
-export const Logo = styled.div`
+export const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 35px;
+`
+
+export const Logo = styled(Link)`
+  text-decoration: none;
 `
 
 export const Text = styled.p`
@@ -62,7 +66,7 @@ export const FormContainer = styled.form`
   gap: 25px;
 `
 
-export const FormInputContainer = styled.div`
+export const FormInputContainer = styled.div<{ isError?: boolean }>`
   width: 100%;
   padding: 16px 25px;
   box-shadow: 0px 5px 40px 0px #0b0b0b26;
@@ -70,9 +74,12 @@ export const FormInputContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  border: 1px solid
+    ${(props) => (props.isError ? `var(--error)` : `transparent`)};
 `
 
 export const Input = styled.input`
+  flex: 2;
   border: none;
   outline: none;
   font-size: 16px;
