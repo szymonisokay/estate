@@ -56,17 +56,18 @@ export const UserWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+  position: relative;
 `
 
 export const User = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   object-fit: cover;
   cursor: pointer;
 `
 
-export const Button = styled.button`
+export const Button = styled(RouterLink)`
   border: none;
   outline: none;
   padding: 10px 30px;
@@ -74,4 +75,68 @@ export const Button = styled.button`
   color: #fff;
   background: var(--accent);
   cursor: pointer;
+  text-decoration: none;
+`
+
+export const IconWrapper = styled.div`
+  display: flex;
+  cursor: pointer;
+
+  ${'svg'} {
+    color: var(--black);
+  }
+`
+
+export const UserMenuContainer = styled.div`
+  position: absolute;
+  top: calc(100% + 20px);
+  right: 0;
+  min-width: 100%;
+  background: #fff;
+  box-shadow: 0px 5px 40px 0px #0b0b0b26;
+  border-radius: 10px;
+  padding: 10px 0;
+`
+
+export const UserMenuHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 20px 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f1f1f1;
+`
+
+export const UserMenuHeaderText = styled.span`
+  color: var(--black);
+`
+
+export const UserMenuList = styled.ul`
+  list-style: none;
+`
+
+export const UserMenuListItem = styled.li`
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 200ms;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &:hover {
+    background: #f1f1f1;
+  }
+`
+
+export const UserMenuLink = styled(Link)`
+  &:hover {
+    color: var(--black);
+  }
+`
+
+export const Divider = styled.hr`
+  border: 0;
+  border-top: 1px solid #f1f1f1;
+  margin: 10px 0;
 `

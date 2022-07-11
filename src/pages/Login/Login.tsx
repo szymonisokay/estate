@@ -38,7 +38,7 @@ const Login = () => {
     initialSignInFormData
   )
 
-  const { signIn, user, isLoading, isError, errorMessage } = useAuth()
+  const { signIn, isLoading, isSuccess, isError, errorMessage } = useAuth()
   const navigate = useNavigate()
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -48,11 +48,11 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (!!user && !isLoading) {
+    if (isSuccess) {
       toast.success('Signed In successfully!')
       setTimeout(() => navigate('/'), 1000)
     }
-  }, [user, isLoading, navigate])
+  }, [isSuccess, navigate])
 
   useEffect(() => {
     if (isError) {

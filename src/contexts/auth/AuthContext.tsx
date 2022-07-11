@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Auth, User } from './AuthContext.model'
 import {
   SignInFormDataModel,
@@ -15,6 +15,7 @@ const AuthContext = createContext<Auth | null>(null)
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -28,6 +29,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       await AuthService.signUpUser(userData)
         .then((user) => {
           setUser(user)
+          setIsSuccess(true)
+          localStorage.setItem('user', JSON.stringify(user))
         })
         .catch((err) => {
           setErrorMessage(err.response.data.message)
@@ -38,6 +41,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setTimeout(() => {
       setIsError(false)
       setErrorMessage('')
+      setIsSuccess(false)
     }, 3000)
     setIsLoading(false)
   }
@@ -48,6 +52,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     await AuthService.signInUser(userData)
       .then((user) => {
         setUser(user)
+        setIsSuccess(true)
+        localStorage.setItem('user', JSON.stringify(user))
       })
       .catch((err) => {
         setIsError(true)
@@ -57,13 +63,36 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setTimeout(() => {
       setIsError(false)
       setErrorMessage('')
+      setIsSuccess(false)
     }, 3000)
     setIsLoading(false)
   }
 
+  const signOut = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+  }
+
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+
+    if (!!user) {
+      setUser(JSON.parse(user))
+    }
+  }, [])
+
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, isError, errorMessage, signUp, signIn }}
+      value={{
+        user,
+        isLoading,
+        isError,
+        isSuccess,
+        errorMessage,
+        signUp,
+        signIn,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

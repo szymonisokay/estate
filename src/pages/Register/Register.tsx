@@ -36,7 +36,7 @@ const Register = () => {
     initialSignUpFormData
   )
 
-  const { signUp, user, isLoading, isError, errorMessage } = useAuth()
+  const { signUp, isSuccess, isLoading, isError, errorMessage } = useAuth()
   const navigate = useNavigate()
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -46,11 +46,11 @@ const Register = () => {
   }
 
   useEffect(() => {
-    if (!!user && !isLoading) {
+    if (isSuccess) {
       toast.success('Signed Up successfully!')
       setTimeout(() => navigate('/'), 1000)
     }
-  }, [user, isLoading, navigate])
+  }, [isSuccess, navigate])
 
   useEffect(() => {
     if (isError) {
