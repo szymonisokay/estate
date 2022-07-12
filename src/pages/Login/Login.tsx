@@ -25,7 +25,7 @@ import { BiEnvelope, BiErrorCircle, BiLockAlt } from 'react-icons/bi'
 import { SignInFormDataModel } from '../../models/FormData.model'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const initialSignInFormData = {
   email: '',
@@ -40,6 +40,9 @@ const Login = () => {
 
   const { signIn, isLoading, isSuccess, isError, errorMessage } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const history = location.state as string
 
   const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -50,9 +53,9 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Signed In successfully!')
-      setTimeout(() => navigate('/'), 1000)
+      setTimeout(() => navigate(history ? history : '/'), 1000)
     }
-  }, [isSuccess, navigate])
+  }, [isSuccess, navigate, history])
 
   useEffect(() => {
     if (isError) {

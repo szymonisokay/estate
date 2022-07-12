@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BiChevronDown, BiSearch, BiSliderAlt } from 'react-icons/bi'
+import useOutsideClick from '../../hooks/useOutsideClick'
 import {
   SearchInputWrapper,
   Select,
@@ -14,6 +15,7 @@ import {
 
 type ComponentType = {
   isHome?: boolean
+  width?: number
 }
 
 const OPTIONS = [
@@ -21,10 +23,15 @@ const OPTIONS = [
   { id: 'rent', value: 'Rent' },
 ]
 
-const Search: React.FC<ComponentType> = ({ isHome }) => {
+const Search: React.FC<ComponentType> = ({ isHome, width }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState<string>(OPTIONS[0].value)
   const [location, setLocation] = useState<string>('')
+
+  const menuWrapperRef = useRef(null)
+  const selectWrapperRef = useRef(null)
+
+  const close = useOutsideClick(menuWrapperRef, selectWrapperRef)
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
@@ -35,15 +42,21 @@ const Search: React.FC<ComponentType> = ({ isHome }) => {
     setIsOpen(false)
   }
 
+  useEffect(() => {
+    if (!!close) {
+      setIsOpen(false)
+    }
+  }, [close])
+
   return (
-    <SearchInputWrapper>
+    <SearchInputWrapper isHome={isHome} width={width}>
       <Select>
-        <SelectHeaderWrapper onClick={toggleOpen}>
+        <SelectHeaderWrapper ref={selectWrapperRef} onClick={toggleOpen}>
           <SelectHeader>{value}</SelectHeader>
           <BiChevronDown size={18} />
         </SelectHeaderWrapper>
         {isOpen && (
-          <OptionsContainer>
+          <OptionsContainer ref={menuWrapperRef}>
             <OptionsList>
               {OPTIONS.map((option) => (
                 <Option

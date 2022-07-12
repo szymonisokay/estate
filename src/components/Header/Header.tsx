@@ -36,7 +36,7 @@ const Header = () => {
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { user, signOut } = useAuth()
+  const { user, signOut, checkTokenExpiration } = useAuth()
 
   const isShown = pathname.includes('login') || pathname.includes('register')
 
@@ -50,7 +50,7 @@ const Header = () => {
   }
 
   const navigateTo = () => {
-    navigate('/login')
+    navigate('/login', { state: pathname })
     setIsOpen(false)
   }
 
@@ -59,6 +59,12 @@ const Header = () => {
       setIsOpen(false)
     }
   }, [close])
+
+  useEffect(() => {
+    const isExpired = checkTokenExpiration()
+
+    if (!!isExpired) return signOut()
+  }, [user, checkTokenExpiration, signOut])
 
   return (
     <>
@@ -71,10 +77,10 @@ const Header = () => {
             <NavWrapper>
               <Navigation>
                 <NavLink>
-                  <Link to='/'>New offers</Link>
+                  <Link to='/offers'>New offers</Link>
                 </NavLink>
                 <NavLink>
-                  <Link to='/'>All offers</Link>
+                  <Link to='/offers'>All offers</Link>
                 </NavLink>
               </Navigation>
             </NavWrapper>
@@ -82,6 +88,7 @@ const Header = () => {
               <IconWrapper
                 ref={userIconRef}
                 onClick={!!user ? toggleOpen : navigateTo}
+                isAuth={!!user ? true : false}
               >
                 <BiUser size={24} />
               </IconWrapper>
@@ -104,7 +111,7 @@ const Header = () => {
                       </UserMenuLink>
                     ))}
                     <Divider />
-                    <UserMenuLink to='/login'>
+                    <UserMenuLink to='/login' state={pathname}>
                       <UserMenuListItem onClick={signOutUser}>
                         <BiLogOut />
                         Log out

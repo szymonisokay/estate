@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 
-export const SearchInputWrapper = styled.div`
-  width: 80%;
+export const SearchInputWrapper = styled.div<{
+  isHome?: boolean
+  width?: number
+}>`
+  max-width: ${(props) => (props.isHome ? '90%' : `${props.width}%`)};
   display: flex;
   align-items: center;
   gap: 20px;

@@ -1,5 +1,5 @@
-import HomePic from '../../assets/images/HomePic.png'
-import Search from '../Search/Search'
+import HomePic from '../../../../assets/images/HomePic.png'
+import Search from '../../../../components/Search/Search'
 import {
   PageWrapper,
   Column,

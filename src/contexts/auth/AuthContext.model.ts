@@ -13,6 +13,7 @@ export type Auth = {
   signUp: (user: SignUpFormDataModel) => void
   signIn: (user: SignInFormDataModel) => void
   signOut: () => void
+  checkTokenExpiration: () => boolean | undefined
 }
 
 export type User = {
@@ -22,4 +23,10 @@ export type User = {
   image?: string
   token: string
   is_admin: boolean
+}
+
+export type JWT = {
+  id: string
+  iat: number
+  exp?: number
 }

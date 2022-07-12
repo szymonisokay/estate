@@ -78,12 +78,25 @@ export const Button = styled(RouterLink)`
   text-decoration: none;
 `
 
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.div<{ isAuth?: boolean }>`
   display: flex;
   cursor: pointer;
+  position: relative;
 
   ${'svg'} {
     color: var(--black);
+  }
+
+  &::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    background: ${(props) => (props.isAuth ? 'var(--accent)' : 'transparent')};
+    position: absolute;
+    bottom: -8px;
+    right: 50%;
+    transform: translateX(50%);
   }
 `
 

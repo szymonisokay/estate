@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { Auth, User } from './AuthContext.model'
+import { Auth, User, JWT } from './AuthContext.model'
 import {
   SignInFormDataModel,
   SignUpFormDataModel,
 } from '../../models/FormData.model'
 import { AuthService } from '../../services/auth/AuthService'
+import jwt_decode from 'jwt-decode'
 
 type Props = {
   children: React.ReactNode
@@ -68,6 +69,20 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setIsLoading(false)
   }
 
+  const checkTokenExpiration = () => {
+    if (!user) return
+
+    const { exp } = jwt_decode<JWT>(user?.token)
+
+    if (!exp) return
+
+    if (Date.now() >= exp * 1000) {
+      return true
+    }
+
+    return false
+  }
+
   const signOut = () => {
     localStorage.removeItem('user')
     setUser(null)
@@ -92,6 +107,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         signUp,
         signIn,
         signOut,
+        checkTokenExpiration,
       }}
     >
       {children}
