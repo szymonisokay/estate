@@ -16,6 +16,7 @@ import {
 type ComponentType = {
   isHome?: boolean
   width?: number
+  onIconClick?: () => any
 }
 
 const OPTIONS = [
@@ -23,7 +24,7 @@ const OPTIONS = [
   { id: 'rent', value: 'Rent' },
 ]
 
-const Search: React.FC<ComponentType> = ({ isHome, width }) => {
+const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState<string>(OPTIONS[0].value)
   const [location, setLocation] = useState<string>('')
@@ -76,7 +77,7 @@ const Search: React.FC<ComponentType> = ({ isHome, width }) => {
         value={location}
         onChange={(e) => setLocation(e.target.value)}
       />
-      <IconWrapper>
+      <IconWrapper onClick={onIconClick}>
         {isHome ? (
           <BiSearch size={22} color='var(--accent)' />
         ) : (
