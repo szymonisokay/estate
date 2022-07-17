@@ -22,6 +22,7 @@ export const ModalWrapper = styled.div`
   padding: 50px;
   display: flex;
   flex-direction: column;
+  border-radius: 6px;
 `
 
 export const ModalHeader = styled.div`
@@ -47,6 +48,9 @@ export const IconWrapper = styled.div`
 
 export const ModalContent = styled.div`
   flex: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `
 
 export const InputGroup = styled.div`
@@ -68,4 +72,5 @@ export const Button = styled.button`
   color: #fff;
   padding: 15px 40px;
   font-size: 16px;
+  border-radius: 6px;
 `

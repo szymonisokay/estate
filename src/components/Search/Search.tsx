@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BiChevronDown, BiSearch, BiSliderAlt } from 'react-icons/bi'
+import { useDispatch } from 'react-redux'
+import { addFilter } from '../../features/filters/filtersSlice'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import {
   SearchInputWrapper,
@@ -29,6 +31,8 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
   const [value, setValue] = useState<string>(OPTIONS[0].value)
   const [location, setLocation] = useState<string>('')
 
+  const dispatch = useDispatch()
+
   const menuWrapperRef = useRef(null)
   const selectWrapperRef = useRef(null)
 
@@ -41,6 +45,12 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
   const selectValue = (value: string) => {
     setValue(value)
     setIsOpen(false)
+    dispatch(addFilter({ name: 'type', value }))
+  }
+
+  const onLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(event.target.value)
+    dispatch(addFilter({ name: 'location', value: event.target.value }))
   }
 
   useEffect(() => {
@@ -75,7 +85,7 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
         id='location'
         placeholder='Search by location'
         value={location}
-        onChange={(e) => setLocation(e.target.value)}
+        onChange={(e) => onLocationChange(e)}
       />
       <IconWrapper onClick={onIconClick}>
         {isHome ? (

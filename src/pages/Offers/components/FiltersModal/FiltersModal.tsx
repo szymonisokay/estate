@@ -11,27 +11,19 @@ import {
   Button,
 } from './FiltersModal.styled'
 import { MdOutlineClose } from 'react-icons/md'
-import SelectInput, {
-  Value,
-} from '../../../../components/SelectInput/SelectInput'
-import { PriceFrom } from './Filters.types'
+import SelectInput from '../../../../components/SelectInput/SelectInput'
+import { prices, area, rooms } from './Filters.values'
 
 type ComponentType = {
   onClose: () => any
 }
 
 type Filters = {
-  priceFrom?: Value
-  priceTo?: Value
+  priceFrom?: string | number
+  priceTo?: string | number
 }
 
 const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
-  const [filters, setFilters] = useState<null | Filters>(null)
-
-  const onValueChange = (name: string, value: Value) => {
-    setFilters({ ...filters, [name]: value })
-  }
-
   return (
     <>
       <Backdrop onClick={onClose} />
@@ -47,15 +39,29 @@ const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
             <SelectInput
               name='priceFrom'
               placeholder='Price from'
-              values={PriceFrom}
-              onValueChange={onValueChange}
+              values={prices}
             />
             <SelectInput
               name='priceTo'
               placeholder='Price to'
-              values={PriceFrom}
-              onValueChange={onValueChange}
+              values={prices}
             />
+          </InputGroup>
+          <InputGroup>
+            <SelectInput
+              name='areaFrom'
+              placeholder='Area from'
+              values={area}
+            />
+            <SelectInput name='areaTo' placeholder='Area to' values={area} />
+          </InputGroup>
+          <InputGroup>
+            <SelectInput
+              name='roomsFrom'
+              placeholder='Rooms from'
+              values={rooms}
+            />
+            <SelectInput name='roomsTo' placeholder='Rooms to' values={rooms} />
           </InputGroup>
         </ModalContent>
         <ModalFooter>
