@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
 export const SelectWrapper = styled.div<{ isOpen?: boolean }>`
-  /* border: 1px solid #c7c7c7; */
   position: relative;
-  width: 100%;
+  width: calc(50% - 10px);
   border-radius: ${(props) => (props.isOpen ? '6px 6px 0 0 ' : '6px')};
   box-shadow: 0px 0px 20px 0px #0b0b0b15;
 

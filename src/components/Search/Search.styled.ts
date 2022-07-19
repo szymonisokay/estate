@@ -1,20 +1,13 @@
 import styled from 'styled-components'
 
-export const SearchInputWrapper = styled.div<{
-  isHome?: boolean
-  width?: number
-}>`
-  max-width: ${(props) => (props.isHome ? '90%' : `${props.width}%`)};
+export const SearchInputWrapper = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 20px;
   box-shadow: 0px 5px 40px 0px #0b0b0b26;
   padding: 18px 35px;
   border-radius: 60px;
-
-  @media (min-width: 1200px) {
-    width: 70%;
-  }
 `
 
 export const Select = styled.div`

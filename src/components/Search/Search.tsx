@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BiChevronDown, BiSearch, BiSliderAlt } from 'react-icons/bi'
+import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { addFilter } from '../../features/filters/filtersSlice'
+import { addFilter, filtersSelector } from '../../features/filters/filtersSlice'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import {
   SearchInputWrapper,
@@ -17,8 +18,7 @@ import {
 
 type ComponentType = {
   isHome?: boolean
-  width?: number
-  onIconClick?: () => any
+  onAction: () => any
 }
 
 const OPTIONS = [
@@ -26,12 +26,14 @@ const OPTIONS = [
   { id: 'rent', value: 'Rent' },
 ]
 
-const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
+const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
+  const { filters } = useSelector(filtersSelector)
+  const dispatch = useDispatch()
+
+  const location = filters.find((filter) => filter.slug === 'location')?.value
+
   const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState<string>(OPTIONS[0].value)
-  const [location, setLocation] = useState<string>('')
-
-  const dispatch = useDispatch()
 
   const menuWrapperRef = useRef(null)
   const selectWrapperRef = useRef(null)
@@ -49,8 +51,13 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
   }
 
   const onLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(event.target.value)
     dispatch(addFilter({ name: 'location', value: event.target.value }))
+  }
+
+  const handleKey = (event: any) => {
+    if (event.key === 'Enter' && !!isHome) {
+      onAction()
+    }
   }
 
   useEffect(() => {
@@ -60,7 +67,7 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
   }, [close])
 
   return (
-    <SearchInputWrapper isHome={isHome} width={width}>
+    <SearchInputWrapper>
       <Select>
         <SelectHeaderWrapper ref={selectWrapperRef} onClick={toggleOpen}>
           <SelectHeader>{value}</SelectHeader>
@@ -86,8 +93,9 @@ const Search: React.FC<ComponentType> = ({ isHome, width, onIconClick }) => {
         placeholder='Search by location'
         value={location}
         onChange={(e) => onLocationChange(e)}
+        onKeyDown={handleKey}
       />
-      <IconWrapper onClick={onIconClick}>
+      <IconWrapper onClick={onAction}>
         {isHome ? (
           <BiSearch size={22} color='var(--accent)' />
         ) : (

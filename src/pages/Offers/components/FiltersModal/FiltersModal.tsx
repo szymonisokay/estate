@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Backdrop,
   ModalWrapper,
@@ -9,21 +8,28 @@ import {
   InputGroup,
   ModalFooter,
   Button,
+  Text,
 } from './FiltersModal.styled'
 import { MdOutlineClose } from 'react-icons/md'
-import SelectInput from '../../../../components/SelectInput/SelectInput'
-import { prices, area, rooms } from './Filters.values'
+import SelectInput from '../SelectInput/SelectInput'
+import { inputs } from './Filters.values'
+import { useDispatch } from 'react-redux'
+import { clearFilters } from '../../../../features/filters/filtersSlice'
+import { useState } from 'react'
 
 type ComponentType = {
   onClose: () => any
 }
 
-type Filters = {
-  priceFrom?: string | number
-  priceTo?: string | number
-}
-
 const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
+  const [currentlyOpen, setCurrentlyOpen] = useState('')
+
+  const dispatch = useDispatch()
+
+  const clearAll = () => {
+    dispatch(clearFilters())
+  }
+
   return (
     <>
       <Backdrop onClick={onClose} />
@@ -36,35 +42,20 @@ const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
         </ModalHeader>
         <ModalContent>
           <InputGroup>
-            <SelectInput
-              name='priceFrom'
-              placeholder='Price from'
-              values={prices}
-            />
-            <SelectInput
-              name='priceTo'
-              placeholder='Price to'
-              values={prices}
-            />
-          </InputGroup>
-          <InputGroup>
-            <SelectInput
-              name='areaFrom'
-              placeholder='Area from'
-              values={area}
-            />
-            <SelectInput name='areaTo' placeholder='Area to' values={area} />
-          </InputGroup>
-          <InputGroup>
-            <SelectInput
-              name='roomsFrom'
-              placeholder='Rooms from'
-              values={rooms}
-            />
-            <SelectInput name='roomsTo' placeholder='Rooms to' values={rooms} />
+            {inputs?.map((input) => (
+              <SelectInput
+                key={input.name}
+                name={input.name}
+                placeholder={input.placeholder}
+                values={input.values}
+                currentlyOpen={currentlyOpen}
+                setCurrentlyOpen={setCurrentlyOpen}
+              />
+            ))}
           </InputGroup>
         </ModalContent>
         <ModalFooter>
+          <Text onClick={clearAll}>Clear all filters</Text>
           <Button>Show offers</Button>
         </ModalFooter>
       </ModalWrapper>

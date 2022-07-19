@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SelectWrapper,
   SelectHeader,
@@ -9,44 +9,57 @@ import {
   IconWrapper,
 } from './SelectInput.styled'
 import { BiChevronDown } from 'react-icons/bi'
-import { transformNumber } from '../../helpers/TransformNumber'
+import { transformNumber } from '../../../../helpers/TransformNumber'
 import { useDispatch } from 'react-redux'
-import { addFilter, filtersSelector } from '../../features/filters/filtersSlice'
+import {
+  addFilter,
+  filtersSelector,
+} from '../../../../features/filters/filtersSlice'
 import { useSelector } from 'react-redux'
-import { Filters } from '../../features/filters/filters.model'
 
 type ComponentType = {
   name: string
   values?: string[]
   placeholder: string
+  currentlyOpen: string
+  setCurrentlyOpen: (name: string) => void
 }
 
 const SelectInput: React.FC<ComponentType> = ({
   name,
   values,
   placeholder,
+  currentlyOpen,
+  setCurrentlyOpen,
 }) => {
   const { filters } = useSelector(filtersSelector)
   const dispatch = useDispatch()
 
+  const filterValue = filters.find((filter) => filter.slug === name)?.value
+
   const [isOpen, setIsOpen] = useState(false)
-  const [value, setValue] = useState<any>(filters[name as keyof Filters])
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
+    setCurrentlyOpen(name)
   }
 
   const selectValue = (value: string) => {
     setIsOpen(false)
-    setValue(value)
     dispatch(addFilter({ name, value }))
   }
+
+  useEffect(() => {
+    if (name !== currentlyOpen) {
+      setIsOpen(false)
+    }
+  }, [name, currentlyOpen])
 
   return (
     <SelectWrapper isOpen={!!isOpen}>
       <SelectHeader onClick={toggleOpen}>
-        <SelectText isPlaceholder={!value}>
-          {value ? filters[name as keyof Filters] : placeholder}
+        <SelectText isPlaceholder={!filterValue}>
+          {filterValue ? filterValue : placeholder}
         </SelectText>
         <IconWrapper>
           <BiChevronDown size={26} />

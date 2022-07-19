@@ -30,3 +30,12 @@ export const area: string[] = [
   '15 000',
   '20 000',
 ]
+
+export const inputs = [
+  { name: 'min-price', placeholder: 'Min price', values: prices },
+  { name: 'max-price', placeholder: 'Max price', values: prices },
+  { name: 'min-area', placeholder: 'Min area', values: area },
+  { name: 'max-area', placeholder: 'Max area', values: area },
+  { name: 'min-rooms', placeholder: 'Min no. of rooms', values: rooms },
+  { name: 'max-rooms', placeholder: 'Max no. of rooms', values: rooms },
+]

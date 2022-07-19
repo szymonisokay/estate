@@ -1,18 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Filters, Settings } from './filters.model'
+import { Settings } from './filters.model'
 import { RootState } from '../../app/rootReducer'
 
 const initialState: Settings = {
-  filters: {
-    priceFrom: '',
-    priceTo: '',
-    areaFrom: '',
-    areaTo: '',
-    roomsFrom: '',
-    roomsTo: '',
-    location: '',
-    type: 'purchase',
-  },
+  filters: [
+    { name: 'Min price', slug: 'min-price', value: 0 },
+    { name: 'Max price', slug: 'max-price', value: 0 },
+    { name: 'Min area', slug: 'min-area', value: 0 },
+    { name: 'Max area', slug: 'max-area', value: 0 },
+    { name: 'Min no. of rooms', slug: 'min-rooms', value: 0 },
+    { name: 'Max no. of rooms', slug: 'max-rooms', value: 0 },
+    { name: 'Location', slug: 'location', value: '' },
+  ],
 }
 
 export const filtersSlice = createSlice({
@@ -20,22 +19,37 @@ export const filtersSlice = createSlice({
   initialState,
   reducers: {
     addFilter: (
-      state: Settings,
-      { payload }: PayloadAction<{ name: string; value: string }>
+      state,
+      action: PayloadAction<{ name: string; value: string | number }>
     ) => {
-      if (payload.name === 'areaFrom' || payload.name === 'areaTo') {
-        payload.value += ' m2'
-        state.filters[payload.name as keyof Filters] = payload.value
+      state.filters = state.filters.map((filter) =>
+        filter.slug === action.payload.name
+          ? { ...filter, value: action.payload.value }
+          : { ...filter }
+      )
+    },
+    deleteFilter: (state, action: PayloadAction<{ name: string }>) => {
+      state.filters = state.filters.map((filter) =>
+        filter.name === action.payload.name
+          ? filter.slug === 'location'
+            ? { ...filter, value: '' }
+            : { ...filter, value: 0 }
+          : { ...filter }
+      )
 
-        return
-      }
-
-      state.filters[payload.name as keyof Filters] = payload.value
+      // state.filters.map((filter) =>
+      //   filter.slug === 'location' ? (filter.value = '') : (filter.value = 0)
+      // )
+    },
+    clearFilters: (state) => {
+      state.filters.map((filter) =>
+        filter.slug === 'location' ? (filter.value = '') : (filter.value = 0)
+      )
     },
   },
 })
 
-export const { addFilter } = filtersSlice.actions
+export const { addFilter, deleteFilter, clearFilters } = filtersSlice.actions
 
 export const filtersSelector = (state: RootState) => state.filters
 export default filtersSlice.reducer

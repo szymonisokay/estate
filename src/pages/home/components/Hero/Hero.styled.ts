@@ -25,6 +25,14 @@ export const Heading = styled.h1`
   margin-bottom: 20px;
 `
 
+export const SearchWrapper = styled.div`
+  max-width: 90%;
+
+  @media (min-width: 1200px) {
+    max-width: 70%;
+  }
+`
+
 export const HeroImage = styled.img`
   display: block;
   width: 90%;

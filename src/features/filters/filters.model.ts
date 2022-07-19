@@ -1,14 +1,5 @@
 export type Settings = {
-  filters: Filters
+  filters: Filters[]
 }
 
-export type Filters = {
-  priceFrom?: string
-  priceTo?: string
-  areaFrom?: string
-  areaTo?: string
-  roomsFrom?: string
-  roomsTo?: string
-  location?: string
-  type: string
-}
+export type Filters = { name: string; slug: string; value: string | number }

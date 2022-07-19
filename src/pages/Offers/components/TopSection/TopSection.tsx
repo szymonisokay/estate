@@ -1,10 +1,21 @@
-import { Wrapper, SearchWrapper } from './TopSection.styled'
+import { Wrapper, SearchWrapper, ChipsWrapper } from './TopSection.styled'
 import Search from '../../../../components/Search/Search'
 import { useState } from 'react'
 import FiltersModal from '../FiltersModal/FiltersModal'
+import FilterChip from '../FilterChip/FilterChip'
+import { useSelector } from 'react-redux'
+import {
+  deleteFilter,
+  filtersSelector,
+} from '../../../../features/filters/filtersSlice'
+import { useDispatch } from 'react-redux'
 
 const TopSection = () => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const { filters } = useSelector(filtersSelector)
+
+  const dispatch = useDispatch()
 
   const openFiltersModal = () => {
     setIsOpen(true)
@@ -14,12 +25,26 @@ const TopSection = () => {
     setIsOpen(false)
   }
 
+  const onChipDelete = (name: string) => {
+    dispatch(deleteFilter({ name }))
+  }
+
   return (
     <>
       <Wrapper>
         <SearchWrapper>
-          <Search width={60} onIconClick={openFiltersModal} />
+          <Search onAction={openFiltersModal} />
         </SearchWrapper>
+        <ChipsWrapper>
+          {filters?.map((filter) => (
+            <FilterChip
+              key={filter.slug}
+              name={filter.name}
+              value={filter.value}
+              onDelete={onChipDelete}
+            />
+          ))}
+        </ChipsWrapper>
       </Wrapper>
 
       {isOpen && <FiltersModal onClose={closeFiltersModal} />}

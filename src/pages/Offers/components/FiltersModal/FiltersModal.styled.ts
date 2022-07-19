@@ -16,6 +16,7 @@ export const ModalWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70%;
+  max-width: 900px;
   height: 70%;
   background: #fff;
   z-index: 10000;
@@ -56,6 +57,7 @@ export const ModalContent = styled.div`
 export const InputGroup = styled.div`
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 `
 
 export const ModalFooter = styled.div`
@@ -63,6 +65,7 @@ export const ModalFooter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 `
 
 export const Button = styled.button`
@@ -70,7 +73,18 @@ export const Button = styled.button`
   outline: none;
   background: var(--black);
   color: #fff;
-  padding: 15px 40px;
+  padding: 12px 30px;
   font-size: 16px;
   border-radius: 6px;
+  cursor: pointer;
+`
+
+export const Text = styled.p`
+  color: var(--gray);
+  cursor: pointer;
+  transition: 200ms;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
