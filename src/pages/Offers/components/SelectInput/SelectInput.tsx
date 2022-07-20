@@ -13,8 +13,8 @@ import { transformNumber } from '../../../../helpers/TransformNumber'
 import { useDispatch } from 'react-redux'
 import {
   addFilter,
-  filtersSelector,
-} from '../../../../features/filters/filtersSlice'
+  settingsSelector,
+} from '../../../../features/settings/settingsSlice'
 import { useSelector } from 'react-redux'
 
 type ComponentType = {
@@ -32,7 +32,7 @@ const SelectInput: React.FC<ComponentType> = ({
   currentlyOpen,
   setCurrentlyOpen,
 }) => {
-  const { filters } = useSelector(filtersSelector)
+  const { filters } = useSelector(settingsSelector)
   const dispatch = useDispatch()
 
   const filterValue = filters.find((filter) => filter.slug === name)?.value

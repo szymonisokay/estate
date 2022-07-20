@@ -14,7 +14,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import SelectInput from '../SelectInput/SelectInput'
 import { inputs } from './Filters.values'
 import { useDispatch } from 'react-redux'
-import { clearFilters } from '../../../../features/filters/filtersSlice'
+import { clearFilters } from '../../../../features/settings/settingsSlice'
 import { useState } from 'react'
 
 type ComponentType = {

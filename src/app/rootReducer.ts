@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import filtersReducer from '../features/filters/filtersSlice'
+import settingsReducer from '../features/settings/settingsSlice'
 
 const rootReducer = combineReducers({
-  filters: filtersReducer,
+  settings: settingsReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -1,4 +1,9 @@
-import { Wrapper, SearchWrapper, ChipsWrapper } from './TopSection.styled'
+import {
+  ChipsWrapper,
+  SettingsWrapper,
+  Pagination,
+  Text,
+} from './TopSection.styled'
 import Search from '../../../../components/Search/Search'
 import { useState } from 'react'
 import FiltersModal from '../FiltersModal/FiltersModal'
@@ -6,14 +11,15 @@ import FilterChip from '../FilterChip/FilterChip'
 import { useSelector } from 'react-redux'
 import {
   deleteFilter,
-  filtersSelector,
-} from '../../../../features/filters/filtersSlice'
+  settingsSelector,
+} from '../../../../features/settings/settingsSlice'
 import { useDispatch } from 'react-redux'
+import PaginationSwitcher from '../PaginationSwitcher/PaginationSwitcher'
 
 const TopSection = () => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const { filters } = useSelector(filtersSelector)
+  const { filters, pagination } = useSelector(settingsSelector)
 
   const dispatch = useDispatch()
 
@@ -31,10 +37,8 @@ const TopSection = () => {
 
   return (
     <>
-      <Wrapper>
-        <SearchWrapper>
-          <Search onAction={openFiltersModal} />
-        </SearchWrapper>
+      <SettingsWrapper>
+        <Search onAction={openFiltersModal} />
         <ChipsWrapper>
           {filters?.map((filter) => (
             <FilterChip
@@ -45,7 +49,13 @@ const TopSection = () => {
             />
           ))}
         </ChipsWrapper>
-      </Wrapper>
+        <Pagination>
+          <Text>
+            Showing <strong>{pagination}</strong> of 120 results
+          </Text>
+          <PaginationSwitcher />
+        </Pagination>
+      </SettingsWrapper>
 
       {isOpen && <FiltersModal onClose={closeFiltersModal} />}
     </>

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Settings } from './filters.model'
+import { Settings } from './settings.model'
 import { RootState } from '../../app/rootReducer'
 
 const initialState: Settings = {
@@ -12,10 +12,13 @@ const initialState: Settings = {
     { name: 'Max no. of rooms', slug: 'max-rooms', value: 0 },
     { name: 'Location', slug: 'location', value: '' },
   ],
+  sort: { name: 'Name asc', value: 'name_asc' },
+  pagination: 12,
+  layout: 'grid',
 }
 
-export const filtersSlice = createSlice({
-  name: 'filters',
+export const settingsSlice = createSlice({
+  name: 'settings',
   initialState,
   reducers: {
     addFilter: (
@@ -36,20 +39,39 @@ export const filtersSlice = createSlice({
             : { ...filter, value: 0 }
           : { ...filter }
       )
-
-      // state.filters.map((filter) =>
-      //   filter.slug === 'location' ? (filter.value = '') : (filter.value = 0)
-      // )
     },
     clearFilters: (state) => {
       state.filters.map((filter) =>
         filter.slug === 'location' ? (filter.value = '') : (filter.value = 0)
       )
     },
+    changeLayout: (state) => {
+      if (state.layout === 'grid') {
+        state.layout = 'list'
+      } else {
+        state.layout = 'grid'
+      }
+    },
+    changePagination: (state, action: PayloadAction<number>) => {
+      state.pagination = action.payload
+    },
+    changeSort: (
+      state,
+      action: PayloadAction<{ name: string; value: string }>
+    ) => {
+      state.sort = action.payload
+    },
   },
 })
 
-export const { addFilter, deleteFilter, clearFilters } = filtersSlice.actions
+export const {
+  addFilter,
+  deleteFilter,
+  clearFilters,
+  changeLayout,
+  changePagination,
+  changeSort,
+} = settingsSlice.actions
 
-export const filtersSelector = (state: RootState) => state.filters
-export default filtersSlice.reducer
+export const settingsSelector = (state: RootState) => state.settings
+export default settingsSlice.reducer

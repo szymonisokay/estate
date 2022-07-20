@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { BiChevronDown, BiSearch, BiSliderAlt } from 'react-icons/bi'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { addFilter, filtersSelector } from '../../features/filters/filtersSlice'
+import {
+  addFilter,
+  settingsSelector,
+} from '../../features/settings/settingsSlice'
 import useOutsideClick from '../../hooks/useOutsideClick'
 import {
   SearchInputWrapper,
@@ -27,7 +30,7 @@ const OPTIONS = [
 ]
 
 const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
-  const { filters } = useSelector(filtersSelector)
+  const { filters } = useSelector(settingsSelector)
   const dispatch = useDispatch()
 
   const location = filters.find((filter) => filter.slug === 'location')?.value
