@@ -12,12 +12,12 @@ const initialState: Settings = {
     { name: 'Max no. of rooms', slug: 'max-rooms', value: 0 },
     { name: 'Location', slug: 'location', value: '' },
   ],
-  sort: { name: 'Name asc', value: 'name_asc' },
+  sort: { name: 'Price: High-Low', value: 'price_desc' },
   pagination: 12,
   layout: 'grid',
 }
 
-export const settingsSlice = createSlice({
+const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {

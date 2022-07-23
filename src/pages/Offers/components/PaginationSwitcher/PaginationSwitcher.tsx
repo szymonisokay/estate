@@ -11,8 +11,8 @@ import { Wrapper, Layout } from './PaginationSwitcher.styled'
 
 const paginationOptions = [12, 16, 20, 24]
 const sortOptions = [
-  { name: 'Name asc', value: 'name_asc' },
-  { name: 'Name desc', value: 'name_desc' },
+  { name: 'Price: Low-High', value: 'price_asc' },
+  { name: 'Price: High-Low', value: 'price_desc' },
 ]
 
 const PaginationSwitcher = () => {
@@ -25,7 +25,6 @@ const PaginationSwitcher = () => {
   }
 
   const onSortChange = (sort: { name: string; value: string }) => {
-    console.log(sort)
     dispatch(changeSort(sort))
   }
 
