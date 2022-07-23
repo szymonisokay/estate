@@ -15,11 +15,13 @@ import {
 } from '../../../../features/settings/settingsSlice'
 import { useDispatch } from 'react-redux'
 import PaginationSwitcher from '../PaginationSwitcher/PaginationSwitcher'
+import { offersSelector } from '../../../../features/offers/offersSlice'
 
 const TopSection = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const { filters, pagination } = useSelector(settingsSelector)
+  const { offers } = useSelector(offersSelector)
 
   const dispatch = useDispatch()
 
@@ -51,7 +53,7 @@ const TopSection = () => {
         </ChipsWrapper>
         <Pagination>
           <Text>
-            Showing <strong>{pagination}</strong> of 120 results
+            Showing <strong>{pagination}</strong> of {offers.total} results
           </Text>
           <PaginationSwitcher />
         </Pagination>

@@ -1,5 +1,7 @@
 import React from 'react'
 import { OffersType } from '../../features/offers/offers.model'
+import { Grid } from './Offers.styled'
+import SingleOffer from './SingleOffer/SingleOffer'
 
 type ComponentType = {
   offers: OffersType
@@ -8,11 +10,13 @@ type ComponentType = {
 
 const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {
   return (
-    <div>
+    <Grid>
       {isLoading && <p>loading</p>}
       {Array.isArray(offers.results) &&
-        offers.results.map((offer) => <p key={offer._id}>{offer.title}</p>)}
-    </div>
+        offers.results.map((offer) => (
+          <SingleOffer key={offer._id} offer={offer} />
+        ))}
+    </Grid>
   )
 }
 
