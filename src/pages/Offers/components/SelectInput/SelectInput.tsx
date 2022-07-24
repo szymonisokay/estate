@@ -10,11 +10,7 @@ import {
 } from './SelectInput.styled'
 import { BiChevronDown } from 'react-icons/bi'
 import { transformNumber } from '../../../../helpers/TransformNumber'
-import { useDispatch } from 'react-redux'
-import {
-  addFilter,
-  settingsSelector,
-} from '../../../../features/settings/settingsSlice'
+import { settingsSelector } from '../../../../features/settings/settingsSlice'
 import { useSelector } from 'react-redux'
 
 type ComponentType = {
@@ -23,6 +19,7 @@ type ComponentType = {
   placeholder: string
   currentlyOpen: string
   setCurrentlyOpen: (name: string) => void
+  onSelectValue: (name: string, value: string | number) => void
 }
 
 const SelectInput: React.FC<ComponentType> = ({
@@ -31,9 +28,9 @@ const SelectInput: React.FC<ComponentType> = ({
   placeholder,
   currentlyOpen,
   setCurrentlyOpen,
+  onSelectValue,
 }) => {
   const { filters } = useSelector(settingsSelector)
-  const dispatch = useDispatch()
 
   const filterValue = filters.find((filter) => filter.slug === name)?.value
 
@@ -46,7 +43,7 @@ const SelectInput: React.FC<ComponentType> = ({
 
   const selectValue = (value: string) => {
     setIsOpen(false)
-    dispatch(addFilter({ name, value }))
+    onSelectValue(name, value)
   }
 
   useEffect(() => {

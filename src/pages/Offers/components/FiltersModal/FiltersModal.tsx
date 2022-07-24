@@ -13,9 +13,13 @@ import {
 import { MdOutlineClose } from 'react-icons/md'
 import SelectInput from '../SelectInput/SelectInput'
 import { inputs } from './Filters.values'
-import { useDispatch } from 'react-redux'
-import { clearFilters } from '../../../../features/settings/settingsSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  addFilter,
+  clearFilters,
+} from '../../../../features/settings/settingsSlice'
 import { useState } from 'react'
+import { offersSelector } from '../../../../features/offers/offersSlice'
 
 type ComponentType = {
   onClose: () => any
@@ -24,7 +28,17 @@ type ComponentType = {
 const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
   const [currentlyOpen, setCurrentlyOpen] = useState('')
 
+  const { offers } = useSelector(offersSelector)
+
   const dispatch = useDispatch()
+
+  const onSelectValue = (name: string, value: string | number) => {
+    dispatch(addFilter({ name, value }))
+  }
+
+  const onButtonClose = () => {
+    onClose()
+  }
 
   const clearAll = () => {
     dispatch(clearFilters())
@@ -50,13 +64,14 @@ const FiltersModal: React.FC<ComponentType> = ({ onClose }) => {
                 values={input.values}
                 currentlyOpen={currentlyOpen}
                 setCurrentlyOpen={setCurrentlyOpen}
+                onSelectValue={onSelectValue}
               />
             ))}
           </InputGroup>
         </ModalContent>
         <ModalFooter>
           <Text onClick={clearAll}>Clear all filters</Text>
-          <Button>Show offers</Button>
+          <Button onClick={onButtonClose}>Show {offers.total} offers</Button>
         </ModalFooter>
       </ModalWrapper>
     </>

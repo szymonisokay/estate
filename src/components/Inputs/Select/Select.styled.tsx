@@ -26,6 +26,7 @@ export const OptionsContainer = styled.div`
   padding: 10px 0;
   box-shadow: 0px 5px 40px 0px #0b0b0b26;
   border-radius: 10px;
+  z-index: 10;
 `
 
 export const OptionsList = styled.ul`

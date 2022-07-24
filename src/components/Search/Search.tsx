@@ -33,10 +33,13 @@ const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
   const { filters } = useSelector(settingsSelector)
   const dispatch = useDispatch()
 
-  const location = filters.find((filter) => filter.slug === 'location')?.value
+  const stateLocation = filters.find(
+    (filter) => filter.slug === 'location'
+  )?.value
 
   const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState<string>(OPTIONS[0].value)
+  const [location, setLocation] = useState(stateLocation ? stateLocation : '')
 
   const menuWrapperRef = useRef(null)
   const selectWrapperRef = useRef(null)
@@ -54,7 +57,9 @@ const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
   }
 
   const onLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(addFilter({ name: 'location', value: event.target.value }))
+    const value = event.target.value
+
+    setLocation(value)
   }
 
   const handleKey = (event: any) => {
@@ -68,6 +73,10 @@ const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
       setIsOpen(false)
     }
   }, [close])
+
+  useEffect(() => {
+    dispatch(addFilter({ name: 'location', value: location }))
+  }, [dispatch, location])
 
   return (
     <SearchInputWrapper>

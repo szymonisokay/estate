@@ -1,14 +1,30 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/rootReducer'
 import { OffersService } from '../../services/offers/OffersService'
-import { initialState } from './offers.model'
+import { Settings } from '../settings/settings.model'
+import { initialState, OffersSliceType, OffersType } from './offers.model'
 
 // async
 
-export const fetchOffers = createAsyncThunk('offers/fetchOffers', async () => {
-  const response = OffersService.getOffers()
-
-  return response
+export const fetchOffers = createAsyncThunk<
+  OffersType,
+  undefined,
+  {
+    state: {
+      settings: Settings
+      offers: OffersSliceType
+    }
+  }
+>('offers/fetchOffers', async (_, thunkAPI) => {
+  try {
+    return await OffersService.getOffers()
+  } catch (error: any) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
 })
 
 const offersSlice = createSlice({

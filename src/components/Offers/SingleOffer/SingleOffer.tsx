@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
-import { BiTimeFive, BiBookmark } from 'react-icons/bi'
+import { BiTimeFive } from 'react-icons/bi'
+import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5'
 import { Offer } from '../../../models/Offer.model'
 import {
   Wrapper,
@@ -10,7 +11,10 @@ import {
   OfferContent,
   OfferMeta,
   OfferHeading,
+  Price,
+  Button,
 } from './SingleOffer.styled'
+import { transformNumber } from '../../../helpers/TransformNumber'
 
 type ComponentType = {
   offer: Offer
@@ -21,8 +25,9 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
     <Wrapper>
       <ImageWrapper>
         <Image src={offer.images.featured} />
+        <Price>${transformNumber(offer.price)}</Price>
         <Bookmark>
-          <BiBookmark size={20} />
+          <IoBookmarkOutline size={22} />
         </Bookmark>
       </ImageWrapper>
       <OfferContent>
@@ -32,6 +37,7 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
         </OfferMeta>
         <OfferHeading>{offer.title}</OfferHeading>
       </OfferContent>
+      <Button to={`/offer/${offer._id}`}>More details</Button>
     </Wrapper>
   )
 }

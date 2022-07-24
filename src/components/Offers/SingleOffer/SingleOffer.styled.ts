@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const Wrapper = styled.div`
   padding: 20px;
@@ -8,6 +9,7 @@ export const Wrapper = styled.div`
 export const ImageWrapper = styled.div`
   position: relative;
   height: 200px;
+  z-index: 1;
 `
 
 export const Bookmark = styled.div`
@@ -25,7 +27,7 @@ export const Bookmark = styled.div`
   z-index: 10;
 
   ${'svg'} {
-    fill: var(--accent);
+    color: var(--accent);
   }
 `
 
@@ -38,7 +40,7 @@ export const Image = styled.img`
 `
 
 export const OfferContent = styled.div`
-  padding-top: 10px;
+  padding: 15px 0 30px;
 `
 
 export const OfferMeta = styled.div`
@@ -53,4 +55,31 @@ export const OfferMeta = styled.div`
   }
 `
 
-export const OfferHeading = styled.div``
+export const OfferHeading = styled.div`
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+`
+
+export const Price = styled.h4`
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  /* font-size: 18px; */
+  font-weight: 500;
+  background: var(--accent);
+  padding: 5px 20px;
+  border-radius: 25px;
+  color: #fff;
+`
+
+export const Button = styled(Link)`
+  display: inline-block;
+  text-decoration: none;
+  background: var(--black);
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  width: 100%;
+  border-radius: 6px;
+`
