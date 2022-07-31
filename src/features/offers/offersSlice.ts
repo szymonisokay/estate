@@ -17,7 +17,7 @@ export const fetchOffers = createAsyncThunk<
   }
 >('offers/fetchOffers', async (_, thunkAPI) => {
   try {
-    return await OffersService.getOffers()
+    return await OffersService.getOffers(thunkAPI.getState().settings)
   } catch (error: any) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

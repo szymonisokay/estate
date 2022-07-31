@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { BiTimeFive } from 'react-icons/bi'
+import { BiTimeFive, BiMap } from 'react-icons/bi'
 import { IoBookmark, IoBookmarkOutline } from 'react-icons/io5'
 import { Offer } from '../../../models/Offer.model'
 import {
@@ -11,6 +11,7 @@ import {
   OfferContent,
   OfferMeta,
   OfferHeading,
+  Location,
   Price,
   Button,
 } from './SingleOffer.styled'
@@ -37,6 +38,10 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
         </OfferMeta>
         <OfferHeading>{offer.title}</OfferHeading>
       </OfferContent>
+      <Location>
+        <BiMap />
+        {`${offer.location?.street}, ${offer.location?.city}, ${offer.location?.country}`}
+      </Location>
       <Button to={`/offer/${offer._id}`}>More details</Button>
     </Wrapper>
   )

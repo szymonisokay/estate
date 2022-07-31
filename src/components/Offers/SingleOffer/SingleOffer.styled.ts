@@ -40,7 +40,7 @@ export const Image = styled.img`
 `
 
 export const OfferContent = styled.div`
-  padding: 15px 0 30px;
+  padding: 15px 0;
 `
 
 export const OfferMeta = styled.div`
@@ -58,7 +58,16 @@ export const OfferMeta = styled.div`
 export const OfferHeading = styled.div`
   margin-top: 10px;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 900;
+  color: var(--black);
+`
+
+export const Location = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gray);
+  margin-bottom: 15px;
 `
 
 export const Price = styled.h4`

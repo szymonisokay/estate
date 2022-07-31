@@ -11,6 +11,7 @@ import { Wrapper, Layout } from './PaginationSwitcher.styled'
 
 const paginationOptions = [12, 16, 20, 24]
 const sortOptions = [
+  { name: 'Date: Newest', value: 'newest' },
   { name: 'Price: Low-High', value: 'price_asc' },
   { name: 'Price: High-Low', value: 'price_desc' },
 ]

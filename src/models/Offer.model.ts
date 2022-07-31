@@ -20,6 +20,12 @@ export type Offer = {
     other?: string[]
   }
   available: string
+  location: {
+    country: string
+    city: string
+    street: string
+    zip_code: string
+  }
   createdAt: Date | null
   updatedAt: Date | null
 }

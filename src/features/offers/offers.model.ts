@@ -37,6 +37,12 @@ export const initialState: OffersSliceType = {
         other: [],
       },
       available: '',
+      location: {
+        country: '',
+        city: '',
+        street: '',
+        zip_code: '',
+      },
       createdAt: null,
       updatedAt: null,
     },

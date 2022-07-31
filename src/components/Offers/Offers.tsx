@@ -19,6 +19,10 @@ const Offers: React.FC<ComponentType> = ({ offers, isLoading, layout }) => {
     )
   }
 
+  if (Array.isArray(offers.results) && offers.results.length === 0) {
+    return <p>No offers</p>
+  }
+
   return (
     <>
       {layout === 'grid' ? (

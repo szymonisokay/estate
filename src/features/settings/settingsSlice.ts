@@ -12,7 +12,7 @@ const initialState: Settings = {
     { name: 'Max no. of rooms', slug: 'max-rooms', value: 0 },
     { name: 'Location', slug: 'location', value: '' },
   ],
-  sort: { name: 'Price: High-Low', value: 'price_desc' },
+  sort: { name: 'Date: Newest', value: 'newest' },
   pagination: 12,
   layout: 'grid',
 }
