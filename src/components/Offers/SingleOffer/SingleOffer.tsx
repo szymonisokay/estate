@@ -42,7 +42,7 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
         <BiMap />
         {`${offer.location?.street}, ${offer.location?.city}, ${offer.location?.country}`}
       </Location>
-      <Button to={`/offer/${offer._id}`}>More details</Button>
+      <Button to={`/offers/${offer._id}`}>More details</Button>
     </Wrapper>
   )
 }

@@ -1,7 +1,7 @@
 export type Settings = {
   filters: Filters[]
   sort: { name: string; value: string }
-  pagination: number
+  pagination: { limit: number; page: number }
   layout: string
 }
 

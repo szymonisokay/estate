@@ -6,11 +6,17 @@ import ClipLoader from 'react-spinners/ClipLoader'
 
 type ComponentType = {
   offers: OffersType
-  isLoading: boolean
-  layout: string
+  isLoading?: boolean
+  layout?: string
+  isHome?: boolean
 }
 
-const Offers: React.FC<ComponentType> = ({ offers, isLoading, layout }) => {
+const Offers: React.FC<ComponentType> = ({
+  offers,
+  isLoading,
+  layout,
+  isHome,
+}) => {
   if (isLoading) {
     return (
       <LoadingWrapper>
@@ -21,6 +27,16 @@ const Offers: React.FC<ComponentType> = ({ offers, isLoading, layout }) => {
 
   if (Array.isArray(offers.results) && offers.results.length === 0) {
     return <p>No offers</p>
+  }
+
+  if (isHome && Array.isArray(offers.results)) {
+    return (
+      <Grid>
+        {offers.results.slice(0, 3).map((offer) => (
+          <SingleOffer key={offer._id} offer={offer} />
+        ))}
+      </Grid>
+    )
   }
 
   return (

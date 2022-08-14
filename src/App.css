@@ -21,3 +21,47 @@
 .svg {
   fill: var(--black);
 }
+
+ul.pagination {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 40px 0;
+}
+
+.pagination li {
+  font-size: 18px;
+  color: var(--black);
+  cursor: pointer;
+}
+
+.pagination li a {
+  display: flex;
+}
+
+.pagination :is(.prev, .next) {
+  background: var(--accent);
+  padding: 8px;
+  border-radius: 100%;
+  font-size: 22px;
+  color: #fff;
+}
+
+.pagination .prev {
+  margin-right: 15px;
+}
+
+.pagination .next {
+  margin-left: 15px;
+}
+
+.pagination .active {
+  color: var(--accent);
+}
+
+.pagination .disabled {
+  cursor: not-allowed;
+  background: #ff7a004d;
+}

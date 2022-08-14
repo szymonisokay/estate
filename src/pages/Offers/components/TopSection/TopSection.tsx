@@ -20,7 +20,7 @@ import { offersSelector } from '../../../../features/offers/offersSlice'
 const TopSection = () => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const { filters, pagination } = useSelector(settingsSelector)
+  const { filters } = useSelector(settingsSelector)
   const { offers } = useSelector(offersSelector)
 
   const dispatch = useDispatch()
@@ -53,7 +53,11 @@ const TopSection = () => {
         </ChipsWrapper>
         <Pagination>
           <Text>
-            Showing <strong>{pagination}</strong> of {offers.total} results
+            Showing{' '}
+            <strong>
+              {Array.isArray(offers.results) ? offers.results.length : '...'}
+            </strong>{' '}
+            of {offers.total} results
           </Text>
           <PaginationSwitcher />
         </Pagination>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/svgs/Estate.svg'
+import { ReactComponent as LogoWhite } from '../../assets/svgs/Estate-white.svg'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import {
   HeaderWrapper,
@@ -39,6 +40,7 @@ const Header = () => {
   const { user, signOut, checkTokenExpiration } = useAuth()
 
   const isShown = pathname.includes('login') || pathname.includes('register')
+  const isTransformed = pathname.includes('offers/')
 
   const toggleOpen = () => {
     setIsOpen(!isOpen)
@@ -69,13 +71,13 @@ const Header = () => {
   return (
     <>
       {!isShown && (
-        <HeaderWrapper>
+        <HeaderWrapper isTransformed={isTransformed}>
           <HeaderContent>
             <LogoWrapper to='/'>
-              <Logo />
+              {isTransformed ? <LogoWhite /> : <Logo />}
             </LogoWrapper>
             <NavWrapper>
-              <Navigation>
+              <Navigation isTransformed={isTransformed}>
                 <NavLink>
                   <Link to='/offers'>New offers</Link>
                 </NavLink>
@@ -89,6 +91,7 @@ const Header = () => {
                 ref={userIconRef}
                 onClick={!!user ? toggleOpen : navigateTo}
                 isAuth={!!user ? true : false}
+                isTransformed={isTransformed}
               >
                 <BiUser size={24} />
               </IconWrapper>

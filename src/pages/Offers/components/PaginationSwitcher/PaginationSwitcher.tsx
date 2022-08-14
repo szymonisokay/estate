@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Select from '../../../../components/Inputs/Select/Select'
 import {
   changeLayout,
-  changePagination,
+  changePaginationLimit,
   changeSort,
   settingsSelector,
 } from '../../../../features/settings/settingsSlice'
@@ -22,7 +22,7 @@ const PaginationSwitcher = () => {
   const dispatch = useDispatch()
 
   const onOptionChange = (option: number) => {
-    dispatch(changePagination(option))
+    dispatch(changePaginationLimit(option))
   }
 
   const onSortChange = (sort: { name: string; value: string }) => {
@@ -37,7 +37,7 @@ const PaginationSwitcher = () => {
     <>
       <Wrapper>
         <Select
-          value={pagination}
+          value={pagination.limit}
           values={paginationOptions}
           onValueChange={onOptionChange}
         />

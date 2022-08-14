@@ -13,7 +13,7 @@ const initialState: Settings = {
     { name: 'Location', slug: 'location', value: '' },
   ],
   sort: { name: 'Date: Newest', value: 'newest' },
-  pagination: 12,
+  pagination: { limit: 12, page: 1 },
   layout: 'grid',
 }
 
@@ -52,8 +52,11 @@ const settingsSlice = createSlice({
         state.layout = 'grid'
       }
     },
-    changePagination: (state, action: PayloadAction<number>) => {
-      state.pagination = action.payload
+    changePaginationLimit: (state, action: PayloadAction<number>) => {
+      state.pagination.limit = action.payload
+    },
+    changePage: (state, action: PayloadAction<number>) => {
+      state.pagination.page = action.payload
     },
     changeSort: (
       state,
@@ -69,8 +72,9 @@ export const {
   deleteFilter,
   clearFilters,
   changeLayout,
-  changePagination,
+  changePaginationLimit,
   changeSort,
+  changePage,
 } = settingsSlice.actions
 
 export const settingsSelector = (state: RootState) => state.settings

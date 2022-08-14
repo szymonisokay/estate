@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { NavLink as RouterNavLink, Link as RouterLink } from 'react-router-dom'
 
-export const HeaderWrapper = styled.div`
+export const HeaderWrapper = styled.div<{ isTransformed?: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   z-index: 9999;
   width: 100%;
+  background: ${(props) => (props.isTransformed ? '#0B0B0B80' : 'transparent')};
 `
 
 export const HeaderContent = styled.div`
@@ -32,10 +33,14 @@ export const NavWrapper = styled.div`
   flex: 2;
 `
 
-export const Navigation = styled.ul`
+export const Navigation = styled.ul<{ isTransformed?: boolean }>`
   list-style: none;
   display: flex;
   justify-content: center;
+
+  ${'a'} {
+    color: ${(props) => props.isTransformed && '#fff'};
+  }
 `
 
 export const NavLink = styled.li`
@@ -78,13 +83,16 @@ export const Button = styled(RouterLink)`
   text-decoration: none;
 `
 
-export const IconWrapper = styled.div<{ isAuth?: boolean }>`
+export const IconWrapper = styled.div<{
+  isAuth?: boolean
+  isTransformed?: boolean
+}>`
   display: flex;
   cursor: pointer;
   position: relative;
 
   ${'svg'} {
-    color: var(--black);
+    color: ${(props) => (props.isTransformed ? '#fff' : 'var(--black)')};
   }
 
   &::before {

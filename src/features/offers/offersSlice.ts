@@ -27,6 +27,23 @@ export const fetchOffers = createAsyncThunk<
   }
 })
 
+export const fetchSingleOffer = createAsyncThunk<OffersType, string>(
+  'offers/fetchSingleOffer',
+  async (id: string, thunkAPI) => {
+    try {
+      return await OffersService.getSingleOffer(id)
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 const offersSlice = createSlice({
   name: 'offers',
   initialState,
@@ -41,6 +58,19 @@ const offersSlice = createSlice({
       state.offers = action.payload
     })
     builder.addCase(fetchOffers.rejected, (state, { payload }) => {
+      state.isLoading = false
+      state.isError = true
+      state.errorMsg = payload as string
+    })
+    builder.addCase(fetchSingleOffer.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(fetchSingleOffer.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccess = true
+      state.offers = action.payload
+    })
+    builder.addCase(fetchSingleOffer.rejected, (state, { payload }) => {
       state.isLoading = false
       state.isError = true
       state.errorMsg = payload as string
