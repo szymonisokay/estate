@@ -1,31 +1,13 @@
 import { FormEvent, useState, useEffect } from 'react'
 import Building from '../../assets/images/Building.png'
 import { ReactComponent as Estate } from '../../assets/svgs/Estate.svg'
-import {
-  PageWrapper,
-  ImageColumn,
-  Column,
-  BuildingImage,
-  ColumnContent,
-  LogoWrapper,
-  Logo,
-  Text,
-  FormContainer,
-  FormInputContainer,
-  Input,
-  FormMetaData,
-  CheckboxContainer,
-  Checkbox,
-  Paragraph,
-  LinkTag,
-  Button,
-  SignUp,
-} from './Login.styled'
-import { BiEnvelope, BiErrorCircle, BiLockAlt } from 'react-icons/bi'
+import { BuildingImage } from './Login.styled'
+import { BiEnvelope, BiLockAlt } from 'react-icons/bi'
 import { SignInFormDataModel } from '../../models/FormData.model'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { toast } from 'react-toastify'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Button, Checkbox, Input, Layout, Space, Spin, Typography } from 'antd'
 
 const initialSignInFormData = {
   email: '',
@@ -64,79 +46,80 @@ const Login = () => {
   }, [isError, errorMessage])
 
   return (
-    <PageWrapper>
-      <ImageColumn>
+    <Layout style={{ flexDirection: 'row', height: '100vh' }}>
+      <Layout.Content
+        style={{
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <form onSubmit={onFormSubmit}>
+          <Space
+            direction='vertical'
+            size='middle'
+            style={{ display: 'flex', padding: '50px' }}
+          >
+            <Estate className='logo' />
+            <Typography.Title level={4}>
+              Login into your Estate. account and continue your journey.
+            </Typography.Title>
+
+            <Input
+              type='email'
+              size='large'
+              placeholder='Your email'
+              prefix={<BiEnvelope />}
+              status={isError && !formData.email ? 'error' : ''}
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+            <Input.Password
+              size='large'
+              placeholder='Your password'
+              prefix={<BiLockAlt />}
+              status={isError && !formData.password ? 'error' : ''}
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            />
+            <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+              <Checkbox
+                checked={formData.remember}
+                onChange={(e) =>
+                  setFormData({ ...formData, remember: e.target.checked })
+                }
+              >
+                Remember me?
+              </Checkbox>
+              <Link to='#'>Forgot password?</Link>
+            </Space>
+            <Button
+              type='primary'
+              htmlType='submit'
+              size='large'
+              style={{ width: '100%' }}
+            >
+              {isLoading ? <Spin className='spinner-white' /> : 'Sign In'}
+            </Button>
+            <Space
+              direction='horizontal'
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <Typography.Text>Don't have an account?</Typography.Text>
+              <Link to='/register'>Sign Up</Link>
+            </Space>
+          </Space>
+        </form>
+      </Layout.Content>
+      <Layout.Content style={{ flex: 1 }}>
         <BuildingImage src={Building} alt='' />
-      </ImageColumn>
-      <Column>
-        <ColumnContent>
-          <LogoWrapper>
-            <Logo to='/'>
-              <Estate className='logo' />
-            </Logo>
-          </LogoWrapper>
-          <Text>
-            Login into your <strong>Estate.</strong> account and continue your
-            journey.
-          </Text>
-          <FormContainer onSubmit={(e) => onFormSubmit(e)}>
-            <FormInputContainer isError={isError && !formData.email && true}>
-              <BiEnvelope size={18} className='svg' />
-              <Input
-                id='email'
-                type='email'
-                placeholder='Your email'
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-              />
-              {isError && !formData.email && (
-                <BiErrorCircle size={20} color='#ec1313' />
-              )}
-            </FormInputContainer>
-            <FormInputContainer isError={isError && !formData.password && true}>
-              <BiLockAlt size={18} className='svg' />
-              <Input
-                id='password'
-                type='password'
-                placeholder='Password'
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
-              {isError && !formData.password && (
-                <BiErrorCircle size={20} color='#ec1313' />
-              )}
-            </FormInputContainer>
-            <FormMetaData>
-              <CheckboxContainer>
-                <Checkbox
-                  type='checkbox'
-                  id='remember'
-                  checked={formData.remember}
-                  onChange={(e) =>
-                    setFormData({ ...formData, remember: e.target.checked })
-                  }
-                />
-                <Paragraph as='label' htmlFor='remember'>
-                  Remember me
-                </Paragraph>
-              </CheckboxContainer>
-              <LinkTag to='#'>Forgot password?</LinkTag>
-            </FormMetaData>
-            <Button>{isLoading ? 'Loading' : 'Sign In'}</Button>
-          </FormContainer>
-          <SignUp>
-            <Paragraph>Don't have an account?</Paragraph>
-            <LinkTag black='true' to='/register'>
-              Sign Up
-            </LinkTag>
-          </SignUp>
-        </ColumnContent>
-      </Column>
-    </PageWrapper>
+      </Layout.Content>
+    </Layout>
   )
 }
 
