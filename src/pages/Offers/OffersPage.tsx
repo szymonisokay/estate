@@ -50,7 +50,7 @@ const OffersPage = () => {
 
   useEffect(() => {
     if (!!isError) {
-      toast.error(errorMsg)
+      // toast.error(errorMsg)
     }
   }, [isError, errorMsg])
 

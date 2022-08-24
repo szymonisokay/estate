@@ -10,6 +10,7 @@ import OffersPage from './pages/Offers/OffersPage'
 import SingleOffer from './pages/SingleOffer/SingleOffer'
 import Footer from './components/Footer/Footer'
 import ScrollToTop from './helpers/ScrollTop'
+import AddOffer from './pages/AddOffer/AddOffer'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/offers' element={<OffersPage />} />
           <Route path='/offers/:id' element={<SingleOffer />} />
+          <Route path='/add-offer' element={<AddOffer />} />
         </Routes>
         <Footer />
       </Router>

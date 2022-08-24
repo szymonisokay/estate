@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const LoadingWrapper = styled.div`
@@ -33,7 +33,7 @@ export const OfferActions = styled.div`
   gap: 20px;
 `
 
-export const MainButton = styled(Link)`
+export const Link = styled(RouterLink)`
   display: inline-block;
   height: 50px;
   color: #fff;
@@ -42,7 +42,6 @@ export const MainButton = styled(Link)`
   padding: 15px 40px;
   border-radius: 25px;
   box-shadow: 0px 10px 15px 0px #0b0b0b33;
-  font-size: 18px;
 `
 
 export const BookmarkButton = styled.button`
@@ -111,4 +110,106 @@ export const PriceWrapper = styled.div`
   ${'span'} {
     color: var(--accent);
   }
+`
+
+export const MainFeatures = styled.div`
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-top: 30px;
+`
+
+export const Feature = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  ${'svg'} {
+    color: var(--accent);
+    font-size: 22px;
+  }
+
+  ${'span'} {
+    color: var(--black);
+  }
+`
+
+export const SectionTitle = styled.h3`
+  font-size: 22px;
+  font-family: 'Roboto Black', sans-serif;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--black);
+`
+export const Section = styled.section`
+  padding: 50px 50px 0;
+
+  &:last-of-type {
+    padding-bottom: 50px;
+  }
+`
+
+export const FacilitiesList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-top: 15px;
+`
+
+export const Facility = styled.div`
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+
+export const List = styled.ul`
+  list-style: none;
+`
+
+export const ListElement = styled.li`
+  padding: 15px 0;
+  border-bottom: 1px solid #f1f1f1;
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  ${'strong'} {
+    display: inline-block;
+    min-width: 200px;
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  ${'span'} {
+    color: var(--gray);
+    font-weight: 400;
+  }
+`
+
+export const ContactDetails = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+
+  ${'p'} {
+    font-weight: 500;
+    margin-top: 10px;
+  }
+`
+
+export const Avatar = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  object-fit: cover;
+`
+
+export const ErrorWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `

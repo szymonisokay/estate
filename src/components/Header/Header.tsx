@@ -95,7 +95,7 @@ const Header = () => {
               >
                 <BiUser size={24} />
               </IconWrapper>
-              <Button to={!!user ? '/' : '/login'}>Add offer</Button>
+              <Button to={!!user ? '/add-offer' : '/login'}>Add offer</Button>
               {isOpen && !!user && (
                 <UserMenuContainer ref={userMenuRef}>
                   <Link to='/'>
