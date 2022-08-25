@@ -1,15 +1,25 @@
-import { IconType } from 'react-icons'
-import { BiBookmark, BiBuildingHouse, BiUser } from 'react-icons/bi'
+import { BiBookmark, BiBuildingHouse, BiLogOut, BiUser } from 'react-icons/bi'
 
 export type UserMenuModel = {
-  id: string
-  icon: IconType
-  value: string
+  key: string
+  icon: any
+  label: string
   action: string
 }
 
 export const userMenu: UserMenuModel[] = [
-  { id: 'account', icon: BiUser, value: 'Account', action: '/' },
-  { id: 'offers', icon: BiBuildingHouse, value: 'Offers', action: '/' },
-  { id: 'bookmarks', icon: BiBookmark, value: 'Bookmarks', action: '/' },
+  { key: '1', icon: <BiUser />, label: 'Account', action: 'navigateAccount' },
+  {
+    key: '2',
+    icon: <BiBuildingHouse />,
+    label: 'Offers',
+    action: 'navigateOffers',
+  },
+  {
+    key: '3',
+    icon: <BiBookmark />,
+    label: 'Bookmarks',
+    action: 'navigateBookmarks',
+  },
+  { key: '4', icon: <BiLogOut />, label: 'Log out', action: 'logOut' },
 ]

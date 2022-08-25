@@ -1,11 +1,10 @@
+import { Layout, Space, Typography } from 'antd'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch } from '../../app/store'
 import Offers from '../../components/Offers/Offers'
+import Search from '../../components/Search/Search'
 import { fetchOffers, offersSelector } from '../../features/offers/offersSlice'
-import Hero from './components/Hero/Hero'
-import { HomeContent, Title } from './Home.styled'
 
 const Home = () => {
   const { offers, isLoading } = useSelector(offersSelector)
@@ -17,13 +16,17 @@ const Home = () => {
   }, [dispatch])
 
   return (
-    <>
-      <Hero />
-      <HomeContent>
-        <Title>New offers</Title>
+    <Layout style={{ padding: '20px' }}>
+      <Layout.Content style={{ flex: 2, marginBottom: '20px' }}>
+        <Space>
+          <Search />
+        </Space>
+      </Layout.Content>
+      <Layout.Content style={{ flex: 10 }}>
+        <Typography.Title level={3}>Offers</Typography.Title>
         <Offers offers={offers} isLoading={isLoading} isHome />
-      </HomeContent>
-    </>
+      </Layout.Content>
+    </Layout>
   )
 }
 

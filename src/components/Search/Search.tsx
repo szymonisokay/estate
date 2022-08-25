@@ -1,3 +1,4 @@
+import { Input, Select } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { BiChevronDown, BiSearch, BiSliderAlt } from 'react-icons/bi'
 import { useSelector } from 'react-redux'
@@ -7,21 +8,10 @@ import {
   settingsSelector,
 } from '../../features/settings/settingsSlice'
 import useOutsideClick from '../../hooks/useOutsideClick'
-import {
-  SearchInputWrapper,
-  Select,
-  SelectHeaderWrapper,
-  SelectHeader,
-  OptionsContainer,
-  OptionsList,
-  Option,
-  Input,
-  IconWrapper,
-} from './Search.styled'
 
 type ComponentType = {
   isHome?: boolean
-  onAction: () => any
+  onAction?: () => any
 }
 
 const OPTIONS = [
@@ -62,12 +52,6 @@ const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
     setLocation(value)
   }
 
-  const handleKey = (event: any) => {
-    if (event.key === 'Enter' && !!isHome) {
-      onAction()
-    }
-  }
-
   useEffect(() => {
     if (!!close) {
       setIsOpen(false)
@@ -78,43 +62,29 @@ const Search: React.FC<ComponentType> = ({ isHome, onAction }) => {
     dispatch(addFilter({ name: 'location', value: location }))
   }, [dispatch, location])
 
+  const onSearch = (searchValue: string) => {
+    console.log(searchValue)
+  }
+
+  const onSelect = (selectValue: 'purchase' | 'rent') => {
+    console.log(selectValue)
+  }
+
+  const selectBefore = (
+    <Select defaultValue='purchase' onChange={onSelect}>
+      <Select.Option value='purchase'>Purchase</Select.Option>
+      <Select.Option value='rent'>Rent</Select.Option>
+    </Select>
+  )
+
   return (
-    <SearchInputWrapper>
-      <Select>
-        <SelectHeaderWrapper ref={selectWrapperRef} onClick={toggleOpen}>
-          <SelectHeader>{value}</SelectHeader>
-          <BiChevronDown size={18} />
-        </SelectHeaderWrapper>
-        {isOpen && (
-          <OptionsContainer ref={menuWrapperRef}>
-            <OptionsList>
-              {OPTIONS.map((option) => (
-                <Option
-                  key={option.id}
-                  onClick={() => selectValue(option.value)}
-                >
-                  {option.value}
-                </Option>
-              ))}
-            </OptionsList>
-          </OptionsContainer>
-        )}
-      </Select>
-      <Input
-        id='location'
-        placeholder='Search by location'
-        value={location}
-        onChange={(e) => onLocationChange(e)}
-        onKeyDown={handleKey}
-      />
-      <IconWrapper onClick={onAction}>
-        {isHome ? (
-          <BiSearch size={22} color='var(--accent)' />
-        ) : (
-          <BiSliderAlt size={22} color='var(--accent)' />
-        )}
-      </IconWrapper>
-    </SearchInputWrapper>
+    <Input.Search
+      addonBefore={selectBefore}
+      placeholder='Search based on location'
+      allowClear
+      onSearch={onSearch}
+      size='large'
+    />
   )
 }
 

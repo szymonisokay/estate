@@ -1,8 +1,7 @@
 import React from 'react'
 import { OffersType } from '../../features/offers/offers.model'
-import { Grid, List, LoadingWrapper } from './Offers.styled'
 import SingleOffer from './SingleOffer/SingleOffer'
-import ClipLoader from 'react-spinners/ClipLoader'
+import { Layout, Spin } from 'antd'
 
 type ComponentType = {
   offers: OffersType
@@ -11,17 +10,12 @@ type ComponentType = {
   isHome?: boolean
 }
 
-const Offers: React.FC<ComponentType> = ({
-  offers,
-  isLoading,
-  layout,
-  isHome,
-}) => {
+const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {
   if (isLoading) {
     return (
-      <LoadingWrapper>
-        <ClipLoader color='#ff7a00' />
-      </LoadingWrapper>
+      <Layout>
+        <Spin />
+      </Layout>
     )
   }
 
@@ -29,34 +23,13 @@ const Offers: React.FC<ComponentType> = ({
     return <p>No offers</p>
   }
 
-  if (isHome && Array.isArray(offers.results)) {
-    return (
-      <Grid>
-        {offers.results.slice(0, 3).map((offer) => (
+  return (
+    <div className='grid'>
+      {Array.isArray(offers.results) &&
+        offers.results.map((offer) => (
           <SingleOffer key={offer._id} offer={offer} />
         ))}
-      </Grid>
-    )
-  }
-
-  return (
-    <>
-      {layout === 'grid' ? (
-        <Grid>
-          {Array.isArray(offers.results) &&
-            offers.results.map((offer) => (
-              <SingleOffer key={offer._id} offer={offer} />
-            ))}
-        </Grid>
-      ) : (
-        <List>
-          {Array.isArray(offers.results) &&
-            offers.results.map((offer) => (
-              <SingleOffer key={offer._id} offer={offer} />
-            ))}
-        </List>
-      )}
-    </>
+    </div>
   )
 }
 

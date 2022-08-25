@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Login from './pages/Login/Login'
-import Register from './pages/Register/Register'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home/Home'
@@ -11,10 +11,11 @@ import SingleOffer from './pages/SingleOffer/SingleOffer'
 import Footer from './components/Footer/Footer'
 import ScrollToTop from './helpers/ScrollTop'
 import AddOffer from './pages/AddOffer/AddOffer'
+import { Layout } from 'antd'
 
 function App() {
   return (
-    <>
+    <Layout style={{ minHeight: '100vh' }}>
       <Router>
         <ScrollToTop />
         <Header />
@@ -26,7 +27,7 @@ function App() {
           <Route path='/offers/:id' element={<SingleOffer />} />
           <Route path='/add-offer' element={<AddOffer />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
       <ToastContainer
         position='bottom-right'
@@ -39,7 +40,7 @@ function App() {
         draggable
         pauseOnHover
       />
-    </>
+    </Layout>
   )
 }
 
