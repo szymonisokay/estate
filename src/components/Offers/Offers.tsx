@@ -1,13 +1,11 @@
 import React from 'react'
-import { OffersType } from '../../features/offers/offers.model'
-import SingleOffer from './SingleOffer/SingleOffer'
+import SingleOffer from './SingleOffer'
 import { Layout, Spin } from 'antd'
+import { OfferType } from '../../models/Offer.model'
 
 type ComponentType = {
-  offers: OffersType
-  isLoading?: boolean
-  layout?: string
-  isHome?: boolean
+  offers: OfferType
+  isLoading: boolean
 }
 
 const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {

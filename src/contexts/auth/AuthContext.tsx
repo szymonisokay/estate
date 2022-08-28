@@ -4,7 +4,7 @@ import {
   SignInFormDataModel,
   SignUpFormDataModel,
 } from '../../models/FormData.model'
-import { AuthService } from '../../services/auth/AuthService'
+import { AuthService } from '../../services/AuthService'
 import jwt_decode from 'jwt-decode'
 
 type Props = {

@@ -8,18 +8,28 @@ export type UserMenuModel = {
 }
 
 export const userMenu: UserMenuModel[] = [
-  { key: '1', icon: <BiUser />, label: 'Account', action: 'navigateAccount' },
+  {
+    key: '1',
+    icon: <BiUser size={18} />,
+    label: 'Account',
+    action: 'navigateAccount',
+  },
   {
     key: '2',
-    icon: <BiBuildingHouse />,
+    icon: <BiBuildingHouse size={18} />,
     label: 'Offers',
     action: 'navigateOffers',
   },
   {
     key: '3',
-    icon: <BiBookmark />,
+    icon: <BiBookmark size={18} />,
     label: 'Bookmarks',
     action: 'navigateBookmarks',
   },
-  { key: '4', icon: <BiLogOut />, label: 'Log out', action: 'logOut' },
+  {
+    key: '4',
+    icon: <BiLogOut size={18} />,
+    label: 'Log out',
+    action: 'logOut',
+  },
 ]

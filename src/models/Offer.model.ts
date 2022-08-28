@@ -1,23 +1,24 @@
-export type Offer = {
+export interface OfferType {
+  results: Offer | Offer[]
+  total: number
+}
+
+export interface Offer {
   _id: string
   title: string
-  body_html: string
+  description: string
   area: number
-  usable_area: number
+  land_area: number
   price: number
-  price_m2: number
-  is_for_purchase: boolean
   is_for_rent: boolean
   price_month: number
-  property_type?: string
-  construction_year?: string
-  rooms_num: number
-  land_area?: string
-  facilities: Facility[]
+  property_type: string
+  construction_year: string
+  facilities: string[]
+  is_parking: boolean
   parking: {
-    is_parking?: boolean
-    parking_type?: string
-    parking_num?: number
+    parking_type: string
+    parking_num: number
   }
   images: {
     featured: string
@@ -40,13 +41,7 @@ export type Offer = {
   createdAt: Date | null
   updatedAt: Date | null
 }
-
-type Facility = {
-  name: string
-  amount: number
-}
-
-type User = {
+export interface User {
   _id: string
   username: string
   email: string

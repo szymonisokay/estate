@@ -1,89 +1,58 @@
-import React, { useState } from 'react'
+import { Layout } from 'antd'
+import { useState } from 'react'
 import { Offer } from '../../models/Offer.model'
-import { AddOfferWrapper, StepsWrapper, Wrapper } from './AddOffer.styled'
-import AddOfferNavigator from './navigator/AddOfferNavigator'
+import Navigation from './Navigation'
+import AdditionalInformation from './steps/AdditionalInformation'
 import BasicInformation from './steps/BasicInformation'
-import Steps from './steps/Steps'
+import Facilities from './steps/Facilities'
 import Images from './steps/Images'
-
-export interface Step {
-  step: number
-  text: string
-}
-
-const MAX_STEP = 5
-const STEPS = [
-  {
-    step: 1,
-    text: 'Basic information',
-  },
-  {
-    step: 2,
-    text: 'Facilities',
-  },
-  {
-    step: 3,
-    text: 'Images',
-  },
-  {
-    step: 4,
-    text: 'Localization',
-  },
-  {
-    step: 5,
-    text: 'Contact details',
-  },
-]
+import Localization from './steps/Localization'
+import { initialOffer } from './steps/steps.config'
+import StepsIndicator from './StepsIndicator'
 
 const AddOffer = () => {
-  const [steps, setSteps] = useState(STEPS)
-  const [currentStep, setCurrentStep] = useState(1)
-  const [offerData, setOfferData] = useState<Offer>({
-    title: 'Title of the offer',
-  } as Offer)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [offer, setOffer] = useState(initialOffer as Offer)
 
-  const setOffer = (data: { [s: string]: string }) => {
-    for (const [key, value] of Object.entries(data)) {
-      setOfferData({ ...offerData, [key]: value })
-    }
-  }
-
-  const onNextStep = (direction: 'previous' | 'next') => {
-    switch (direction) {
-      case 'previous':
-        setCurrentStep((prevStep) => prevStep - 1)
-        break
-      case 'next':
-        setCurrentStep((prevStep) => prevStep + 1)
-        break
-    }
-  }
-
-  const renderComponent = (step: number) => {
-    switch (step) {
+  const renderComponent = (currentStep: number) => {
+    switch (currentStep) {
+      case 0:
+        return <BasicInformation offer={offer} updateOffer={setOffer} />
       case 1:
-        return <BasicInformation offer={offerData} setOffer={setOffer} />
+        return <AdditionalInformation offer={offer} updateOffer={setOffer} />
       case 2:
-        return <Images />
+        return <Facilities offer={offer} updateOffer={setOffer} />
       case 3:
-        return <Images />
+        return <Images offer={offer} updateOffer={setOffer} />
+      case 4:
+        return <Localization />
     }
   }
 
   return (
-    <Wrapper>
-      <StepsWrapper>
-        <Steps steps={steps} currentStep={currentStep} />
-      </StepsWrapper>
-      <AddOfferWrapper>
-        {renderComponent(currentStep)}
-        <AddOfferNavigator
-          step={currentStep}
-          maxStep={MAX_STEP}
-          onNextStep={onNextStep}
-        />
-      </AddOfferWrapper>
-    </Wrapper>
+    <Layout style={{ padding: '50px', flexDirection: 'row' }}>
+      <Layout.Content style={{ flex: 1 }}>
+        <StepsIndicator currentStep={currentStep} />
+      </Layout.Content>
+      <Layout.Content style={{ flex: 2 }}>
+        <Layout.Content
+          style={{
+            minHeight: '500px',
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '15px',
+          }}
+        >
+          {renderComponent(currentStep)}
+        </Layout.Content>
+        <Layout.Content>
+          <Navigation
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+          />
+        </Layout.Content>
+      </Layout.Content>
+    </Layout>
   )
 }
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { BiMap, BiNavigation } from 'react-icons/bi'
 import { IoBookmark } from 'react-icons/io5'
-import { Offer } from '../../../models/Offer.model'
-import { transformNumber } from '../../../helpers/TransformNumber'
+import { Offer } from '../../models/Offer.model'
+import { transformNumber } from '../../helpers/TransformNumber'
 import { Card, Space, Tag, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
@@ -35,7 +35,16 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
   }
 
   return (
-    <Card cover={<img src={offer.images.featured} />} actions={cardActions}>
+    <Card
+      cover={
+        <img
+          src={offer.images.featured}
+          alt={offer.title}
+          style={{ height: '170px', objectFit: 'cover' }}
+        />
+      }
+      actions={cardActions}
+    >
       <Card.Meta
         title={
           <Space

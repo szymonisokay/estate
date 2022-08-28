@@ -1,124 +1,208 @@
-import React from 'react'
-import { DoubleCol, Layout, Separator, Title } from './Steps.styled'
-import { Offer } from '../../../models/Offer.model'
-import Input from '../../../components/Inputs/Input/Input'
-import Checkbox from '../../../components/Inputs/Checkbox/Checkbox'
-import SelectBox from '../shared/SelectBox'
 import {
-  LandAreaData,
-  PropertyTypeData,
-} from '../config/AddOfferFormData.config'
+  Checkbox,
+  Col,
+  Divider,
+  Input,
+  InputNumber,
+  Row,
+  Space,
+  Typography,
+} from 'antd'
+import { title } from 'process'
+import React from 'react'
+import { formatter, parser, StepsComponentInterface } from './steps.config'
 
-interface ComponentInterface {
-  offer: Offer
-  setOffer: (data: any) => void
-}
-
-const BasicInformation: React.FC<ComponentInterface> = ({
+const BasicInformation: React.FC<StepsComponentInterface> = ({
   offer,
-  setOffer,
+  updateOffer,
 }) => {
   return (
     <>
-      <Title>1. Basic information</Title>
-      <Layout>
+      <Space direction='vertical' style={{ width: '100%', rowGap: '2px' }}>
+        <Typography.Text type='secondary'>Title*</Typography.Text>
         <Input
-          id='title'
-          name='title'
           type='text'
-          labelText='Title'
           value={offer.title}
-          onChange={(e) => setOffer({ title: e.target.value })}
+          placeholder='Title'
+          size='large'
+          onChange={(e) =>
+            updateOffer((offer) => {
+              return {
+                ...offer,
+                title: e.target.value,
+              }
+            })
+          }
           required
         />
-        <Separator />
-        <DoubleCol>
-          <Input
-            id='area'
-            name='area'
-            type='text'
-            labelText='Area'
-            value={offer.area}
-            onChange={(e) => setOffer({ area: e.target.value })}
-            required
-            isSuffix
-            suffixSymbol='m²'
-          />
+      </Space>
 
-          <Input
-            id='usable_area'
-            name='usable_area'
-            type='number'
-            labelText='Usable area'
-            value={offer.usable_area}
-            onChange={(e) => setOffer({ usable_area: e.target.value })}
-            required
-            isSuffix
-            suffixSymbol='m²'
-          />
-        </DoubleCol>
+      <Space direction='vertical' style={{ width: '100%', rowGap: '2px' }}>
+        <Typography.Text type='secondary'>
+          Property description*
+        </Typography.Text>
+        <Input.TextArea
+          value={offer.description}
+          placeholder='Description'
+          rows={6}
+          size='large'
+          onChange={(e) =>
+            updateOffer((offer) => {
+              return {
+                ...offer,
+                description: e.target.value,
+              }
+            })
+          }
+          required
+        />
+      </Space>
 
-        <DoubleCol>
-          <Input
-            id='price'
-            name='price'
-            type='number'
-            labelText='Price'
-            value={offer.price}
-            onChange={(e) => setOffer({ price: e.target.value })}
-            required
-            isSuffix
-            suffixSymbol='¢'
-          />
+      <Divider />
 
-          <Input
-            id='price_m2'
-            name='price_m2'
-            type='number'
-            labelText='Price for m²'
-            value={offer.price_m2}
-            onChange={(e) => setOffer({ price_m2: e.target.value })}
-            required
-            isSuffix
-            suffixSymbol='¢'
-          />
-        </DoubleCol>
+      <Input.Group>
+        <Row gutter={20}>
+          <Col span={12}>
+            <Space
+              direction='vertical'
+              style={{ width: '100%', rowGap: '2px' }}
+            >
+              <Typography.Text type='secondary'>Area*</Typography.Text>
+              <InputNumber
+                style={{ width: '100%' }}
+                value={offer.area}
+                placeholder='Area'
+                size='large'
+                formatter={formatter}
+                parser={parser}
+                onChange={(value) =>
+                  updateOffer((offer) => {
+                    return {
+                      ...offer,
+                      area: value,
+                    }
+                  })
+                }
+                addonAfter='m²'
+                required
+              />
+            </Space>
+          </Col>
+          <Col span={12}>
+            <Space
+              direction='vertical'
+              style={{ width: '100%', rowGap: '2px' }}
+            >
+              <Typography.Text type='secondary'>Land area*</Typography.Text>
+              <InputNumber
+                style={{ width: '100%' }}
+                value={offer.land_area}
+                placeholder='Land area'
+                size='large'
+                formatter={formatter}
+                parser={parser}
+                onChange={(value) =>
+                  updateOffer((offer) => {
+                    return {
+                      ...offer,
+                      land_area: value,
+                    }
+                  })
+                }
+                addonAfter='m²'
+                required
+              />
+            </Space>
+          </Col>
+        </Row>
+      </Input.Group>
 
-        <DoubleCol>
-          <div>
+      <Input.Group>
+        <Row gutter={20}>
+          <Col span={12}>
+            <Space
+              direction='vertical'
+              style={{ width: '100%', rowGap: '2px' }}
+            >
+              <Typography.Text type='secondary'>Price*</Typography.Text>
+              <InputNumber
+                style={{ width: '100%' }}
+                value={offer.price}
+                placeholder='Price'
+                size='large'
+                formatter={formatter}
+                parser={parser}
+                onChange={(value) =>
+                  updateOffer((offer) => {
+                    return {
+                      ...offer,
+                      price: value,
+                    }
+                  })
+                }
+                addonAfter='C'
+                required
+              />
+            </Space>
+          </Col>
+        </Row>
+      </Input.Group>
+
+      <Divider />
+      <Input.Group>
+        <Row gutter={20}>
+          <Col span={12}>
             <Checkbox
-              labelText='Is property available for renting?'
-              value={offer.is_for_rent}
-              onChange={(e) => setOffer({ is_for_rent: e.target.checked })}
-            />
-          </div>
-          {!!offer.is_for_rent && (
-            <Input
-              id='price_month'
-              name='price_month'
-              type='number'
-              labelText='Price for month'
-              value={offer.price_month}
-              onChange={(e) => setOffer({ price_month: e.target.value })}
-            />
-          )}
-        </DoubleCol>
-        <Separator />
-        <DoubleCol>
-          <SelectBox
-            selectItems={PropertyTypeData}
-            placeholder='Select...'
-            label='Property type'
-            onValueChange={(item) => setOffer({ property_type: item.value })}
-          />
-          <SelectBox
-            selectItems={LandAreaData}
-            placeholder='Select...'
-            label='Land area'
-            onValueChange={(item) => setOffer({ property_type: item.value })}
-          />
-        </DoubleCol>
-      </Layout>
+              checked={offer.is_for_rent}
+              onChange={(e) =>
+                updateOffer((offer) => {
+                  if (e.target.checked === false) {
+                    return {
+                      ...offer,
+                      is_for_rent: e.target.checked,
+                      price_month: 0,
+                    }
+                  }
+
+                  return {
+                    ...offer,
+                    is_for_rent: e.target.checked,
+                  }
+                })
+              }
+            >
+              Is property available for renting?
+            </Checkbox>
+          </Col>
+          <Col span={12}>
+            {offer.is_for_rent && (
+              <Space direction='vertical' style={{ rowGap: '2px' }}>
+                <Typography.Text type='secondary'>
+                  Price per month*
+                </Typography.Text>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  value={offer.price_month}
+                  placeholder='Price per month'
+                  size='large'
+                  formatter={formatter}
+                  parser={parser}
+                  onChange={(value) =>
+                    updateOffer((offer) => {
+                      return {
+                        ...offer,
+                        price_month: value,
+                      }
+                    })
+                  }
+                  addonAfter='C'
+                  required
+                />
+              </Space>
+            )}
+          </Col>
+        </Row>
+      </Input.Group>
     </>
   )
 }

@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ReactComponent as Logo } from '../../assets/svgs/Estate_v2.svg'
 import { useAuth } from '../../contexts/auth/AuthContext'
-import { BiUser } from 'react-icons/bi'
+import { BiDotsHorizontal } from 'react-icons/bi'
 import { userMenu } from './UserMenu'
-import { Button, Dropdown, Menu, MenuProps, Space } from 'antd'
+import { Avatar, Button, Dropdown, Menu, MenuProps, Space } from 'antd'
 
 const Header = () => {
+  const navigate = useNavigate()
   const { pathname } = useLocation()
   const { user, signOut, checkTokenExpiration } = useAuth()
 
@@ -43,13 +44,24 @@ const Header = () => {
           <Space>
             <Dropdown.Button
               overlay={menu}
-              placement='bottom'
-              icon={<BiUser size={22} style={{ marginTop: '3px' }} />}
+              placement='bottomRight'
+              icon={<BiDotsHorizontal size={22} style={{ marginTop: '3px' }} />}
               trigger={['click']}
               size='large'
-            ></Dropdown.Button>
+            >
+              <Space style={{ columnGap: '5px', alignItems: 'center' }}>
+                {user?.image && (
+                  <Avatar shape='square' size='small' src={user.image} />
+                )}
+                {user?.username}
+              </Space>
+            </Dropdown.Button>
 
-            <Button type='primary' size='large'>
+            <Button
+              onClick={() => navigate('/offer/add')}
+              type='primary'
+              size='large'
+            >
               Add offer
             </Button>
           </Space>

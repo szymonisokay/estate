@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { transformData } from '../../helpers/TransformData'
+import { transformData } from '../helpers/TransformData'
 import {
   SignInFormDataModel,
   SignUpFormDataModel,
-} from '../../models/FormData.model'
+} from '../models/FormData.model'
 
 const API_URL = 'http://localhost:5000/api/auth'
 
