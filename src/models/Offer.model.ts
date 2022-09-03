@@ -4,7 +4,7 @@ export interface OfferType {
 }
 
 export interface Offer {
-  _id: string
+  _id?: string
   title: string
   description: string
   area: number

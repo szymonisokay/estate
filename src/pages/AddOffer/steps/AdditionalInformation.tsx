@@ -32,7 +32,7 @@ const AdditionalInformation: React.FC<StepsComponentInterface> = ({
               <Typography.Text type='secondary'>Property type*</Typography.Text>
               <Select
                 style={{ width: '100%' }}
-                defaultValue={offer.property_type}
+                value={offer.property_type}
                 size='large'
                 placeholder='Property type'
                 onSelect={(value: string) =>
@@ -92,7 +92,7 @@ const AdditionalInformation: React.FC<StepsComponentInterface> = ({
                 style={{ width: '100%' }}
                 defaultValue={offer.available}
                 size='large'
-                placeholder='Property type'
+                placeholder='Available'
                 onChange={(e) =>
                   updateOffer((offer) => {
                     return {

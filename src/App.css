@@ -47,3 +47,23 @@
 .ant-input-suffix {
   margin-left: 15px !important;
 }
+
+.ant-image {
+  height: 100%;
+  width: 100%;
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  margin: 0 !important;
+  width: 100% !important;
+  padding: 0 10px !important;
+}
+
+.ant-carousel.ant-carousel .slick-dots li button {
+  height: 5px;
+  background: #40a9ff;
+}
+
+.ant-carousel.ant-carousel .slick-dots li.slick-active button {
+  background: #1890ff;
+}

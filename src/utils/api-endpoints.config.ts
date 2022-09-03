@@ -8,4 +8,6 @@ export const getEndpoint = (endpoint: keyof ApiEndpoints): ApiEndpoint => {
 export const apiEndpoints: ApiEndpoints = {
   getOffer: { path: 'offers/{param}' },
   getOffers: { path: 'offers/' },
+  updateOffer: { path: 'offers/{param}' },
+  uploadOfferImage: { path: 'offers/upload/' },
 }

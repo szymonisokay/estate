@@ -27,12 +27,12 @@ const Home = () => {
 
   return (
     <Layout style={{ padding: '20px' }}>
-      <Layout.Content style={{ flex: 2, marginBottom: '20px' }}>
+      <Layout.Content style={{ flex: 1, marginBottom: '20px' }}>
         <Space>
           <Search />
         </Space>
       </Layout.Content>
-      <Layout.Content style={{ flex: 10 }}>
+      <Layout.Content style={{ flex: 11 }}>
         <Typography.Title level={3}>Offers</Typography.Title>
         <Offers offers={offers} isLoading={isLoading} />
       </Layout.Content>

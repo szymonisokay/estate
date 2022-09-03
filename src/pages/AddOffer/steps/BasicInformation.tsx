@@ -8,7 +8,6 @@ import {
   Space,
   Typography,
 } from 'antd'
-import { title } from 'process'
 import React from 'react'
 import { formatter, parser, StepsComponentInterface } from './steps.config'
 

@@ -5,11 +5,12 @@ import { useAuth } from '../../contexts/auth/AuthContext'
 import { BiDotsHorizontal } from 'react-icons/bi'
 import { userMenu } from './UserMenu'
 import { Avatar, Button, Dropdown, Menu, MenuProps, Space } from 'antd'
+import { OffersService } from '../../services/OffersService'
 
 const Header = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { user, signOut, checkTokenExpiration } = useAuth()
+  const { user, signOut, checkTokenExpiration, getToken } = useAuth()
 
   const isShown = pathname.includes('login') || pathname.includes('register')
 
@@ -18,6 +19,12 @@ const Header = () => {
 
     console.log(action)
   }
+
+  // const onAddOffer = async () => {
+  //   const response = await OffersService.initialOfferCreate(getToken())
+
+  //   navigate(`/offer/add/${response._id}`)
+  // }
 
   useEffect(() => {
     const isExpired = checkTokenExpiration()

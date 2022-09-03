@@ -5,4 +5,6 @@ export interface ApiEndpoint {
 export interface ApiEndpoints {
   getOffer: ApiEndpoint
   getOffers: ApiEndpoint
+  updateOffer: ApiEndpoint
+  uploadOfferImage: ApiEndpoint
 }

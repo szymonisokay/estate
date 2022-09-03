@@ -22,8 +22,6 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
     />,
   ]
 
-  const address = `${offer.location.street}, ${offer.location.city}, ${offer.location.country}, ${offer.location.zip_code}`
-
   const onClick = (data: 'bookmark' | 'navigate') => {
     switch (data) {
       case 'bookmark':
@@ -64,7 +62,10 @@ const SingleOffer: React.FC<ComponentType> = ({ offer }) => {
         description={
           <Space>
             <BiMap size={18} />
-            <Typography.Text type='secondary'>{address}</Typography.Text>
+            <Typography.Text type='secondary'>
+              {offer.location.street}, {offer.location.city},{' '}
+              {offer.location.country}, {offer.location.zip_code}
+            </Typography.Text>
           </Space>
         }
       />

@@ -88,7 +88,6 @@ const user: User = {
 }
 
 export const initialOffer = {
-  _id: '',
   title: '',
   description: '',
   area: 0,
@@ -98,7 +97,7 @@ export const initialOffer = {
   price_month: 0,
   property_type: '',
   construction_year: '',
-  facilities: ['Furnished'],
+  facilities: [],
   is_parking: false,
   parking: {
     parking_type: '',
@@ -106,7 +105,7 @@ export const initialOffer = {
   },
   images: {
     featured: '',
-    other: [''],
+    other: [],
   },
   available: '',
   location: {

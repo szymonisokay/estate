@@ -14,6 +14,7 @@ export type Auth = {
   signIn: (user: SignInFormDataModel) => void
   signOut: () => void
   checkTokenExpiration: () => boolean | undefined
+  getToken: () => string
 }
 
 export type User = {

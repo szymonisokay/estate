@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { Auth, User, JWT } from './AuthContext.model'
 import {
   SignInFormDataModel,
@@ -83,6 +89,16 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     return false
   }
 
+  const getToken = useCallback(() => {
+    const user = localStorage.getItem('user')
+
+    if (!user) return
+
+    const token = JSON.parse(user).token
+
+    return token
+  }, [])
+
   const signOut = () => {
     localStorage.removeItem('user')
     setUser(null)
@@ -108,6 +124,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         signIn,
         signOut,
         checkTokenExpiration,
+        getToken,
       }}
     >
       {children}

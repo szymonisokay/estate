@@ -23,7 +23,8 @@ const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {
 
   return (
     <div className='grid'>
-      {Array.isArray(offers.results) &&
+      {!isLoading &&
+        Array.isArray(offers.results) &&
         offers.results.map((offer) => (
           <SingleOffer key={offer._id} offer={offer} />
         ))}

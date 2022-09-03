@@ -1,101 +1,112 @@
-import { Modal, UploadFile } from 'antd'
-import Upload, { RcFile, UploadProps } from 'antd/lib/upload'
-import React, { useState } from 'react'
+import { Col, Image, List, Row, Typography } from 'antd'
+import Upload from 'antd/lib/upload'
+import React from 'react'
 import { BiPlus } from 'react-icons/bi'
+import { useAuth } from '../../../contexts/auth/AuthContext'
+import { environment } from '../../../environment/environment'
+import { OffersService } from '../../../services/OffersService'
 import { StepsComponentInterface } from './steps.config'
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = (error) => reject(error)
-  })
-
 const Images: React.FC<StepsComponentInterface> = ({ offer, updateOffer }) => {
-  const [previewVisible, setPreviewVisible] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-2',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-3',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-4',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-xxx',
-      percent: 50,
-      name: 'image.png',
-      status: 'uploading',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-5',
-      name: 'image.png',
-      status: 'error',
-    },
-  ])
+  const { getToken } = useAuth()
 
-  const handleCancel = () => setPreviewVisible(false)
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile)
-    }
-
-    setPreviewImage(file.url || (file.preview as string))
-    setPreviewVisible(true)
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
-    )
-  }
-
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) =>
-    setFileList(newFileList)
+  const uploadButtonMain = (
+    <div>
+      <BiPlus />
+      <div style={{ marginTop: 8 }}>Upload main image</div>
+    </div>
+  )
 
   const uploadButton = (
     <div>
       <BiPlus />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>Upload other image</div>
     </div>
   )
+
+  const uploadImage = async (e: any, featured: boolean) => {
+    const data = {
+      is_featured: featured,
+    }
+
+    const formData = new FormData()
+
+    formData.append('image', e.file)
+    formData.append('imageData', JSON.stringify(data))
+
+    const { file, is_featured } = await OffersService.uploadImage(
+      formData,
+      getToken()
+    )
+
+    updateOffer((offer) => {
+      if (is_featured) {
+        return {
+          ...offer,
+          images: {
+            ...offer.images,
+            featured: file.path,
+          },
+        }
+      } else {
+        let otherImages = offer.images.other ?? []
+        otherImages = [...otherImages, file.path]
+
+        return {
+          ...offer,
+          images: {
+            ...offer.images,
+            other: otherImages,
+          },
+        }
+      }
+    })
+  }
+
   return (
     <>
-      <Upload
-        listType='picture-card'
-        fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal
-        visible={previewVisible}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <img alt='example' style={{ width: '100%' }} src={previewImage} />
-      </Modal>
+      {offer.images.featured && (
+        <>
+          <Typography.Title level={4}>Your main image</Typography.Title>
+          <Image src={environment.baseImagesUrl + offer.images.featured} />
+        </>
+      )}
+      {!offer.images.featured && (
+        <Upload
+          multiple
+          customRequest={(e) => uploadImage(e, true)}
+          listType='picture-card'
+          showUploadList={false}
+        >
+          {uploadButtonMain}
+        </Upload>
+      )}
+
+      {offer.images.featured && <Typography.Text>Other images</Typography.Text>}
+      <Row gutter={[16, 16]}>
+        {offer.images.other &&
+          offer.images.other.map((image) => (
+            <Col key={image} span={6} style={{ minHeight: '100px' }}>
+              <Image
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                src={environment.baseImagesUrl + image}
+              />
+            </Col>
+          ))}
+        {offer.images.featured && offer.images.other!.length <= 3 && (
+          <Col span={6}>
+            <Upload
+              multiple
+              customRequest={(e) => uploadImage(e, false)}
+              listType='picture-card'
+              showUploadList={false}
+              style={{ margin: 0 }}
+            >
+              {uploadButton}
+            </Upload>
+          </Col>
+        )}
+      </Row>
     </>
   )
 }

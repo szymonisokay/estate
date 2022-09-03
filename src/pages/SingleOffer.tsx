@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Carousel,
   Divider,
   Image,
   Layout,
@@ -15,9 +16,20 @@ import { useEffect, useState } from 'react'
 import { BiCalendar, BiExpandAlt, BiTimeFive } from 'react-icons/bi'
 import { CgTrees } from 'react-icons/cg'
 import { useParams } from 'react-router-dom'
+import { environment } from '../environment/environment'
 import { transformNumber } from '../helpers/TransformNumber'
 import { Offer } from '../models/Offer.model'
 import { OffersService } from '../services/OffersService'
+
+const carouselStyle: React.CSSProperties = {
+  width: '600px',
+}
+
+const imageStyle: React.CSSProperties = {
+  width: '100%',
+  height: '600px',
+  objectFit: 'cover',
+}
 
 const SingleOffer = () => {
   const { id } = useParams()
@@ -47,8 +59,9 @@ const SingleOffer = () => {
     return <Spin />
   }
 
-  if (!isLoading && Object.keys(offer).length === 0)
+  if (!isLoading && Object.keys(offer).length === 0) {
     return <Typography.Text>offer not found</Typography.Text>
+  }
 
   return (
     <Layout>
@@ -58,7 +71,22 @@ const SingleOffer = () => {
           height: 'max-content',
         }}
       >
-        <Image src={offer.images.featured} width='100%' />
+        <Carousel dotPosition='bottom' effect='fade'>
+          <div style={carouselStyle}>
+            <Image
+              src={environment.baseImagesUrl + offer.images.featured}
+              style={imageStyle}
+            />
+          </div>
+          {offer.images.other?.map((image) => (
+            <div key={image} style={carouselStyle}>
+              <Image
+                src={environment.baseImagesUrl + image}
+                style={imageStyle}
+              />
+            </div>
+          ))}
+        </Carousel>
       </Layout.Content>
       <Layout.Content
         style={{ display: 'flex', flexDirection: 'column', padding: '50px' }}
