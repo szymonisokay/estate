@@ -2,9 +2,27 @@ import axios from 'axios'
 import { Offer, OfferType } from '../models/Offer.model'
 import { getEndpoint } from '../utils/api-endpoints.config'
 
-const getOffers = async () => {
+const getOffers = async (
+  type: 'purchase' | 'rent',
+  location: string,
+  minPrice: number,
+  maxPrice: number,
+  minArea: number,
+  maxArea: number,
+  sort: string
+) => {
   const endpoint = getEndpoint('getOffers').path
-  const response = await axios.get<OfferType>(endpoint)
+  const response = await axios.get<OfferType>(endpoint, {
+    params: {
+      type,
+      location,
+      minPrice,
+      maxPrice,
+      minArea,
+      maxArea,
+      sort,
+    },
+  })
 
   return response.data
 }
@@ -25,6 +43,17 @@ const createOffer = async (offer: Offer, token: string) => {
   })
 
   return response.data as { msg: string; offer: Offer }
+}
+
+const getUserOffers = async (id: string, token: string) => {
+  const endpoint = getEndpoint('getUserOffers').path.replace('{id}', id)
+  const response = await axios.get<OfferType>(endpoint, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return response.data
 }
 
 const updateOffer = async (id: string, offer: Offer, token: string) => {
@@ -51,8 +80,9 @@ const uploadImage = async (formData: FormData, token: string) => {
 }
 
 export const OffersService = {
-  getOffers,
   getOffer,
+  getOffers,
+  getUserOffers,
   createOffer,
   updateOffer,
   uploadImage,

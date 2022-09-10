@@ -11,7 +11,7 @@ import BasicInformation from './steps/BasicInformation'
 import Facilities from './steps/Facilities'
 import Images from './steps/Images'
 import Localization from './steps/Localization'
-import { initialOffer } from './steps/steps.config'
+import { initialOffer } from '../../config/steps.config'
 import StepsIndicator from './StepsIndicator'
 
 const AddOffer = () => {
@@ -45,9 +45,9 @@ const AddOffer = () => {
 
   const onAddOffer = async () => {
     try {
+      setIsVisible(true)
       setIsLoading(true)
       const response = await OffersService.createOffer(offer, getToken())
-      setIsVisible(true)
       setMessage(response.msg)
       setOffer(response.offer)
     } catch (error: any) {
@@ -129,8 +129,14 @@ const AddOffer = () => {
           direction='vertical'
           style={{ width: '100%', alignItems: 'center' }}
         >
-          <FiCheckCircle size={25} color='#52c41a' />
-          <Typography.Text>{message}</Typography.Text>
+          {!isLoading ? (
+            <>
+              <FiCheckCircle size={25} color='#52c41a' />
+              <Typography.Text>{message}</Typography.Text>
+            </>
+          ) : (
+            <Spin />
+          )}
         </Space>
       </Modal>
     </>

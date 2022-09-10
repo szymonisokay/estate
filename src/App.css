@@ -2,9 +2,6 @@
 
 :root {
   --black: #0b0b0b;
-  --gray: #686868;
-  --accent: #ff7a00;
-  --error: #ec1313;
 }
 
 * {
@@ -66,4 +63,14 @@
 
 .ant-carousel.ant-carousel .slick-dots li.slick-active button {
   background: #1890ff;
+}
+
+.offercard_meta > .ant-space-item {
+  width: 100%;
+}
+
+.account-sider > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

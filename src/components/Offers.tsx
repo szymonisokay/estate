@@ -1,14 +1,15 @@
 import React from 'react'
-import SingleOffer from './SingleOffer'
+import OfferCard from './OfferCard'
 import { Layout, Spin } from 'antd'
-import { OfferType } from '../../models/Offer.model'
+import { OfferType } from '../models/Offer.model'
 
 type ComponentType = {
   offers: OfferType
   isLoading: boolean
+  type: string
 }
 
-const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {
+const Offers: React.FC<ComponentType> = ({ offers, isLoading, type }) => {
   if (isLoading) {
     return (
       <Layout>
@@ -26,7 +27,7 @@ const Offers: React.FC<ComponentType> = ({ offers, isLoading }) => {
       {!isLoading &&
         Array.isArray(offers.results) &&
         offers.results.map((offer) => (
-          <SingleOffer key={offer._id} offer={offer} />
+          <OfferCard key={offer._id} offer={offer} type={type} />
         ))}
     </div>
   )

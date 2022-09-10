@@ -1,12 +1,17 @@
-export type SignUpFormDataModel = {
+export interface SignUpFormDataModel {
   username: string
   email: string
   password: string
   password2?: string
 }
 
-export type SignInFormDataModel = {
+export interface SignInFormDataModel {
   email: string
   password: string
   remember: boolean
+}
+
+export interface ChangePassword {
+  password: string
+  changedPassword: string
 }

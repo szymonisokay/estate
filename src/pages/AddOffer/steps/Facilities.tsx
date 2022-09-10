@@ -1,7 +1,10 @@
 import { Checkbox } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import React from 'react'
-import { facilitiesType, StepsComponentInterface } from './steps.config'
+import {
+  facilitiesType,
+  StepsComponentInterface,
+} from '../../../config/steps.config'
 
 const Facilities: React.FC<StepsComponentInterface> = ({
   offer,

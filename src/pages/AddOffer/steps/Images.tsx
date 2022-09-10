@@ -1,11 +1,11 @@
-import { Col, Image, List, Row, Typography } from 'antd'
+import { Col, Image, Row, Typography } from 'antd'
 import Upload from 'antd/lib/upload'
 import React from 'react'
 import { BiPlus } from 'react-icons/bi'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { environment } from '../../../environment/environment'
 import { OffersService } from '../../../services/OffersService'
-import { StepsComponentInterface } from './steps.config'
+import { StepsComponentInterface } from '../../../config/steps.config'
 
 const Images: React.FC<StepsComponentInterface> = ({ offer, updateOffer }) => {
   const { getToken } = useAuth()

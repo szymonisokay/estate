@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { Auth, User, JWT } from './AuthContext.model'
+import { User as UserModel } from '../../models/Offer.model'
 import {
   SignInFormDataModel,
   SignUpFormDataModel,
@@ -25,6 +26,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isSuccess, setIsSuccess] = useState(false)
   const [isError, setIsError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
+  const updateUser = (userData: UserModel) => {
+    setUser((user) =>
+      !!user
+        ? { ...user, image: userData.image, username: userData.username }
+        : null
+    )
+  }
 
   const signUp = async (userData: SignUpFormDataModel) => {
     setIsLoading(true)
@@ -125,6 +134,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         signOut,
         checkTokenExpiration,
         getToken,
+        updateUser,
       }}
     >
       {children}

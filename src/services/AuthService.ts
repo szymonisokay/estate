@@ -4,17 +4,18 @@ import {
   SignInFormDataModel,
   SignUpFormDataModel,
 } from '../models/FormData.model'
-
-const API_URL = 'http://localhost:5000/api/auth'
+import { getEndpoint } from '../utils/api-endpoints.config'
 
 const signUpUser = async (userData: SignUpFormDataModel) => {
-  const response = await axios.post(`${API_URL}/register`, userData)
+  const endpoint = getEndpoint('register').path
+  const response = await axios.post(endpoint, userData)
 
   return transformData(response.data)
 }
 
 const signInUser = async (userData: SignInFormDataModel) => {
-  const response = await axios.post(`${API_URL}/login`, userData)
+  const endpoint = getEndpoint('login').path
+  const response = await axios.post(endpoint, userData)
 
   return transformData(response.data)
 }

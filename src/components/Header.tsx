@@ -1,30 +1,37 @@
 import { useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { ReactComponent as Logo } from '../../assets/svgs/Estate_v2.svg'
-import { useAuth } from '../../contexts/auth/AuthContext'
+import { ReactComponent as Logo } from '../assets/svgs/Estate_v2.svg'
+import { useAuth } from '../contexts/auth/AuthContext'
 import { BiDotsHorizontal } from 'react-icons/bi'
-import { userMenu } from './UserMenu'
+import { userMenu } from '../config/UserMenu.config'
 import { Avatar, Button, Dropdown, Menu, MenuProps, Space } from 'antd'
-import { OffersService } from '../../services/OffersService'
 
 const Header = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { user, signOut, checkTokenExpiration, getToken } = useAuth()
+  const { user, signOut, checkTokenExpiration } = useAuth()
 
   const isShown = pathname.includes('login') || pathname.includes('register')
 
   const onitemClick: MenuProps['onClick'] = ({ key }) => {
     const action = userMenu.find((item) => item.key === key)?.action
 
-    console.log(action)
+    switch (action) {
+      case 'navigateAccount':
+        navigate('/account')
+        break
+      case 'navigateOffers':
+        navigate('/account/offers')
+        break
+      case 'navigateBookmarks':
+        navigate('/account/bookmarks')
+        break
+      case 'logOut':
+        signOut()
+        navigate('/login')
+        break
+    }
   }
-
-  // const onAddOffer = async () => {
-  //   const response = await OffersService.initialOfferCreate(getToken())
-
-  //   navigate(`/offer/add/${response._id}`)
-  // }
 
   useEffect(() => {
     const isExpired = checkTokenExpiration()

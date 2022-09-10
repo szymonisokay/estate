@@ -9,7 +9,11 @@ import {
   Typography,
 } from 'antd'
 import React from 'react'
-import { formatter, parser, StepsComponentInterface } from './steps.config'
+import {
+  formatter,
+  parser,
+  StepsComponentInterface,
+} from '../../../config/steps.config'
 
 const BasicInformation: React.FC<StepsComponentInterface> = ({
   offer,

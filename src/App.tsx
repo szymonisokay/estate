@@ -5,12 +5,15 @@ import Register from './pages/Register'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Home from './pages/Home'
-import Header from './components/Header/Header'
+import Header from './components/Header'
 import SingleOffer from './pages/SingleOffer'
-import Footer from './components/Footer/Footer'
-import ScrollToTop from './helpers/ScrollTop'
 import { Layout } from 'antd'
 import AddOffer from './pages/AddOffer/AddOffer'
+import Account from './pages/Account/Account'
+import Offers from './pages/Account/components/Offers'
+import Bookmarks from './pages/Account/components/Bookmarks'
+import EditAccount from './pages/Account/components/EditAccount'
+import Dashboard from './pages/Account/components/Dashboard'
 
 function App() {
   return (
@@ -18,7 +21,6 @@ function App() {
       style={{ minHeight: '100vh', maxWidth: '1400px', margin: '0 auto' }}
     >
       <Router>
-        <ScrollToTop />
         <Header />
         <Routes>
           <Route path='' element={<Home />} />
@@ -26,8 +28,13 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/offers/:id' element={<SingleOffer />} />
           <Route path='/offer/add' element={<AddOffer />} />
+          <Route path='/account' element={<Account />}>
+            <Route index element={<Dashboard />} />
+            <Route path='edit-account' element={<EditAccount />} />
+            <Route path='offers' element={<Offers />} />
+            <Route path='bookmarks' element={<Bookmarks />} />
+          </Route>
         </Routes>
-        {/* <Footer /> */}
       </Router>
       <ToastContainer
         position='bottom-right'

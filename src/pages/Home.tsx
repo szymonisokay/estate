@@ -1,20 +1,33 @@
-import { Layout, Space, Typography } from 'antd'
+import { Layout, Select, Space, Typography } from 'antd'
 import { useEffect, useState } from 'react'
-import Offers from '../components/Offers/Offers'
-import Search from '../components/Search/Search'
+import Offers from '../components/Offers'
+import FiltersComponent from '../components/Filters'
 import { OfferType } from '../models/Offer.model'
 import { OffersService } from '../services/OffersService'
+import { Filters, initialFilters, sortOptions } from '../config/filters.config'
 
 const Home = () => {
-  const [offers, setOffers] = useState({} as OfferType)
+  const [offers, setOffers] = useState<OfferType>({} as OfferType)
   const [isLoading, setIsLoading] = useState(false)
+  const [filters, setFilters] = useState<Filters>(initialFilters as Filters)
+  const [sort, setSort] = useState<string>(sortOptions[0].value)
+
+  const { type, location, minPrice, maxPrice, minArea, maxArea } = filters
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const response = await OffersService.getOffers()
-        setOffers(response)
+        const offers = await OffersService.getOffers(
+          type,
+          location,
+          minPrice,
+          maxPrice,
+          minArea,
+          maxArea,
+          sort
+        )
+        setOffers(offers)
       } catch (error) {
         console.log(error)
       } finally {
@@ -23,18 +36,27 @@ const Home = () => {
     }
 
     fetchData()
-  }, [])
+  }, [type, location, minPrice, maxPrice, minArea, maxArea, sort])
 
   return (
     <Layout style={{ padding: '20px' }}>
       <Layout.Content style={{ flex: 1, marginBottom: '20px' }}>
-        <Space>
-          <Search />
-        </Space>
+        <FiltersComponent filters={filters} setFilters={setFilters} />
       </Layout.Content>
       <Layout.Content style={{ flex: 11 }}>
-        <Typography.Title level={3}>Offers</Typography.Title>
-        <Offers offers={offers} isLoading={isLoading} />
+        <Space
+          style={{ width: '100%', justifyContent: 'space-between' }}
+          align='start'
+        >
+          <Typography.Title level={3}>Offers</Typography.Title>
+          <Select
+            defaultValue={sort}
+            options={sortOptions}
+            placement='bottomRight'
+            onChange={(e) => setSort(e)}
+          />
+        </Space>
+        <Offers offers={offers} isLoading={isLoading} type={type} />
       </Layout.Content>
     </Layout>
   )

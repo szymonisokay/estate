@@ -1,6 +1,6 @@
-import { Col, Input, InputNumber, Row, Space, Typography } from 'antd'
+import { Col, Input, Row, Space, Typography } from 'antd'
 import React from 'react'
-import { StepsComponentInterface } from './steps.config'
+import { StepsComponentInterface } from '../../../config/steps.config'
 
 const Localization: React.FC<StepsComponentInterface> = ({
   offer,

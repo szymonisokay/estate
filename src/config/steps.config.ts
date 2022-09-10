@@ -1,5 +1,5 @@
 import React from 'react'
-import { Offer, User } from '../../../models/Offer.model'
+import { Offer, User } from '../models/Offer.model'
 
 export interface StepsComponentInterface {
   offer: Offer

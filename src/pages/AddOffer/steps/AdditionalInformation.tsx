@@ -14,7 +14,7 @@ import {
   parkingType,
   propertyType,
   StepsComponentInterface,
-} from './steps.config'
+} from '../../../config/steps.config'
 
 const AdditionalInformation: React.FC<StepsComponentInterface> = ({
   offer,

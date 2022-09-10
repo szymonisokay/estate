@@ -2,6 +2,7 @@ import {
   SignInFormDataModel,
   SignUpFormDataModel,
 } from '../../models/FormData.model'
+import { User as UserModel } from '../../models/Offer.model'
 
 export type Auth = {
   user: User | null
@@ -15,6 +16,7 @@ export type Auth = {
   signOut: () => void
   checkTokenExpiration: () => boolean | undefined
   getToken: () => string
+  updateUser: (userData: UserModel) => void
 }
 
 export type User = {
