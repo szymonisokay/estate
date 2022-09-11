@@ -84,7 +84,7 @@ const Dashboard = () => {
             <Card>
               <Statistic
                 title='No. of transactions'
-                value={wallet.transactions.length}
+                value={wallet.transactions?.length}
                 valueStyle={{ color: '#1890ff' }}
               />
             </Card>
@@ -108,12 +108,6 @@ const Dashboard = () => {
               actions={[
                 <Button>
                   <Link to={`/offers/${offer._id}`}>Show</Link>
-                </Button>,
-                <Button type='primary'>
-                  <Link to={`/offer/edit/${offer._id}`}>Edit</Link>
-                </Button>,
-                <Button type='primary' danger>
-                  Delete
                 </Button>,
               ]}
               extra={

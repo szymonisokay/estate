@@ -74,7 +74,21 @@ const EditAccount = () => {
     }
   }
 
-  const onAddCredits = async () => {}
+  const onAddCredits = async () => {
+    try {
+      setIsLoadingAddCredits(true)
+      const { msg, wallet } = await WalletService.addCredits(coupon, getToken())
+      toast.success(msg)
+      setWallet(wallet)
+      setIsAddCreditsModalOpen(false)
+    } catch (error: any) {
+      toast.error(error.response.data.message)
+    } finally {
+      setIsLoadingAddCredits(false)
+    }
+
+    setCoupon('')
+  }
 
   const onModalCancel = (selection: 'credits' | 'password') => {
     switch (selection) {

@@ -9,10 +9,11 @@ export const apiEndpoints: ApiEndpoints = {
   login: { path: 'auth/login' },
   register: { path: 'auth/register' },
 
-  getOffer: { path: 'offers/{param}' },
+  getOffer: { path: 'offers/{id}' },
   getOffers: { path: 'offers' },
   getUserOffers: { path: 'offers/user/{id}' },
-  updateOffer: { path: 'offers/{param}' },
+  updateOffer: { path: 'offers/{id}' },
+  deleteOffer: { path: 'offers/{id}' },
   uploadOfferImage: { path: 'offers/upload/' },
 
   bookmark: { path: 'bookmarks/' },

@@ -3,14 +3,18 @@ import React from 'react'
 
 interface ComponentInterface {
   currentStep: number
+  isEdit: boolean
   setCurrentStep: (prev: any) => void
   onAddOffer: () => void
+  onEditOffer: () => void
 }
 
 const Navigation: React.FC<ComponentInterface> = ({
   currentStep,
+  isEdit,
   setCurrentStep,
   onAddOffer,
+  onEditOffer,
 }) => {
   const handleAction = () => {
     if (currentStep === 4) {
@@ -39,9 +43,22 @@ const Navigation: React.FC<ComponentInterface> = ({
           Previous
         </Button>
       )}
-      <Button type='primary' size='large' onClick={handleAction}>
-        {currentStep === 4 ? 'Finish' : 'Next'}
-      </Button>
+      {!isEdit && currentStep === 4 && (
+        <Button type='primary' size='large' onClick={handleAction}>
+          Finish
+        </Button>
+      )}
+
+      {currentStep !== 4 && (
+        <Button type='primary' size='large' onClick={handleAction}>
+          Next
+        </Button>
+      )}
+      {isEdit && currentStep === 4 && (
+        <Button type='primary' size='large' onClick={() => onEditOffer()}>
+          Edit
+        </Button>
+      )}
     </Space>
   )
 }

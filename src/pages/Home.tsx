@@ -5,6 +5,7 @@ import FiltersComponent from '../components/Filters'
 import { OfferType } from '../models/Offer.model'
 import { OffersService } from '../services/OffersService'
 import { Filters, initialFilters, sortOptions } from '../config/filters.config'
+import { useAuth } from '../contexts/auth/AuthContext'
 
 const Home = () => {
   const [offers, setOffers] = useState<OfferType>({} as OfferType)
@@ -13,6 +14,7 @@ const Home = () => {
   const [sort, setSort] = useState<string>(sortOptions[0].value)
 
   const { type, location, minPrice, maxPrice, minArea, maxArea } = filters
+  const { getToken } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +27,8 @@ const Home = () => {
           maxPrice,
           minArea,
           maxArea,
-          sort
+          sort,
+          getToken()
         )
         setOffers(offers)
       } catch (error) {
@@ -36,7 +39,7 @@ const Home = () => {
     }
 
     fetchData()
-  }, [type, location, minPrice, maxPrice, minArea, maxArea, sort])
+  }, [type, location, minPrice, maxPrice, minArea, maxArea, sort, getToken])
 
   return (
     <Layout style={{ padding: '20px' }}>

@@ -28,6 +28,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/offers/:id' element={<SingleOffer />} />
           <Route path='/offer/add' element={<AddOffer />} />
+          <Route path='/offer/edit/:id' element={<AddOffer />} />
           <Route path='/account' element={<Account />}>
             <Route index element={<Dashboard />} />
             <Route path='edit-account' element={<EditAccount />} />

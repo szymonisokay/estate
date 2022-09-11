@@ -20,34 +20,59 @@ const AddOffer = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [message, setMessage] = useState('')
+  const [isEdit, setIsEdit] = useState(false)
 
   const { id } = useParams()
   const { getToken } = useAuth()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setIsLoading(true)
-  //       if (id) {
-  //         const response = await OffersService.getOffer(id)
-  //         setOffer(response.results as Offer)
-  //       }
-  //     } catch (error) {
-  //       console.log(error)
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        if (id) {
+          const response = await OffersService.getOffer(id, getToken())
+          setOffer(response.results as Offer)
+          setIsEdit(true)
+        }
+      } catch (error: any) {
+        setOffer(initialOffer)
+        navigate('/offer/add')
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  //   fetchData()
-  // }, [id])
+    if (!id) {
+      setOffer(initialOffer)
+    }
+
+    fetchData()
+
+    return () => {
+      setIsEdit(false)
+    }
+  }, [id, getToken, navigate])
 
   const onAddOffer = async () => {
     try {
       setIsVisible(true)
       setIsLoading(true)
       const response = await OffersService.createOffer(offer, getToken())
+      setMessage(response.msg)
+      setOffer(response.offer)
+    } catch (error: any) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const onEditOffer = async () => {
+    try {
+      setIsVisible(true)
+      setIsLoading(true)
+      const response = await OffersService.updateOffer(id!, offer, getToken())
       setMessage(response.msg)
       setOffer(response.offer)
     } catch (error: any) {
@@ -93,8 +118,10 @@ const AddOffer = () => {
             <Layout.Content>
               <Navigation
                 currentStep={currentStep}
+                isEdit={isEdit}
                 setCurrentStep={setCurrentStep}
                 onAddOffer={onAddOffer}
+                onEditOffer={onEditOffer}
               />
             </Layout.Content>
           </Layout.Content>

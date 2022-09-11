@@ -16,13 +16,17 @@ const getWalletInfo = async (token: string) => {
 const addCredits = async (coupon: string, token: string) => {
   const endpoint = getEndpoint('wallet').path
 
-  const response = await axios.put(endpoint, coupon, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await axios.put(
+    endpoint,
+    { coupon: coupon },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
 
-  return response.data as Wallet
+  return response.data as { msg: string; wallet: Wallet }
 }
 
 export const WalletService = {

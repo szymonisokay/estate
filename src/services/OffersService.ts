@@ -9,7 +9,8 @@ const getOffers = async (
   maxPrice: number,
   minArea: number,
   maxArea: number,
-  sort: string
+  sort: string,
+  token: string
 ) => {
   const endpoint = getEndpoint('getOffers').path
   const response = await axios.get<OfferType>(endpoint, {
@@ -22,14 +23,21 @@ const getOffers = async (
       maxArea,
       sort,
     },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   })
 
   return response.data
 }
 
-const getOffer = async (id: string) => {
-  const endpoint = getEndpoint('getOffer').path.replace('{param}', id)
-  const response = await axios.get<OfferType>(endpoint)
+const getOffer = async (id: string, token: string) => {
+  const endpoint = getEndpoint('getOffer').path.replace('{id}', id)
+  const response = await axios.get<OfferType>(endpoint, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 
   return response.data
 }
@@ -57,7 +65,7 @@ const getUserOffers = async (id: string, token: string) => {
 }
 
 const updateOffer = async (id: string, offer: Offer, token: string) => {
-  const endpoint = getEndpoint('updateOffer').path.replace('{param}', id)
+  const endpoint = getEndpoint('updateOffer').path.replace('{id}', id)
 
   const response = await axios.put(endpoint, offer, {
     headers: {
@@ -66,6 +74,18 @@ const updateOffer = async (id: string, offer: Offer, token: string) => {
   })
 
   return response.data as { msg: string; offer: Offer }
+}
+
+const deleteOffer = async (id: string, token: string) => {
+  const endpoint = getEndpoint('deleteOffer').path.replace('{id}', id)
+
+  const response = await axios.delete(endpoint, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return response.data as { msg: string; offers: OfferType }
 }
 
 const uploadImage = async (formData: FormData, token: string) => {
@@ -85,5 +105,6 @@ export const OffersService = {
   getUserOffers,
   createOffer,
   updateOffer,
+  deleteOffer,
   uploadImage,
 }

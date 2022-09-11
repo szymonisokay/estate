@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import { BiCalendar, BiExpandAlt, BiTimeFive } from 'react-icons/bi'
 import { CgTrees } from 'react-icons/cg'
 import { useParams } from 'react-router-dom'
+import { useAuth } from '../contexts/auth/AuthContext'
 import { environment } from '../environment/environment'
 import { transformNumber } from '../helpers/TransformNumber'
 import { Offer } from '../models/Offer.model'
@@ -36,13 +37,15 @@ const SingleOffer = () => {
   const [offer, setOffer] = useState({} as Offer)
   const [isLoading, setIsLoading] = useState(false)
 
+  const { getToken } = useAuth()
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
 
         if (id) {
-          const response = await OffersService.getOffer(id)
+          const response = await OffersService.getOffer(id, getToken())
           setOffer(response.results as Offer)
         }
       } catch (error) {
@@ -53,7 +56,7 @@ const SingleOffer = () => {
     }
 
     fetchData()
-  }, [id])
+  }, [id, getToken])
 
   if (isLoading) {
     return <Spin />
@@ -100,6 +103,9 @@ const SingleOffer = () => {
               <BiTimeFive color='#00000073' />
               <Typography.Text type='secondary'>
                 Posted {moment(offer.createdAt).fromNow()}
+              </Typography.Text>
+              <Typography.Text type='secondary'>
+                (Edited {moment(offer.updatedAt).fromNow()})
               </Typography.Text>
             </Space>
             <Space align='start' style={{ columnGap: '20px' }}>

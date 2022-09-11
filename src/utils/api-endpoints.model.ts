@@ -10,6 +10,7 @@ export interface ApiEndpoints {
   getOffers: ApiEndpoint
   getUserOffers: ApiEndpoint
   updateOffer: ApiEndpoint
+  deleteOffer: ApiEndpoint
   uploadOfferImage: ApiEndpoint
 
   bookmark: ApiEndpoint
