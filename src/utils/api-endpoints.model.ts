@@ -22,4 +22,6 @@ export interface ApiEndpoints {
   changePassword: ApiEndpoint
 
   wallet: ApiEndpoint
+
+  createTransaction: ApiEndpoint
 }

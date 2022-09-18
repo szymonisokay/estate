@@ -133,7 +133,7 @@ const AddOffer = () => {
       </Layout>
       <Modal
         visible={isVisible}
-        title='Offer created'
+        title={isEdit ? 'Offer updated' : 'Offer created'}
         onCancel={() => navigate('/')}
         footer={[
           <Button

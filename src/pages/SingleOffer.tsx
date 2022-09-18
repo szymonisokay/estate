@@ -15,9 +15,9 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { BiCalendar, BiExpandAlt, BiTimeFive } from 'react-icons/bi'
 import { CgTrees } from 'react-icons/cg'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Checkout } from '../config/checkout'
 import { useAuth } from '../contexts/auth/AuthContext'
-import { environment } from '../environment/environment'
 import { transformNumber } from '../helpers/TransformNumber'
 import { Offer } from '../models/Offer.model'
 import { OffersService } from '../services/OffersService'
@@ -37,7 +37,17 @@ const SingleOffer = () => {
   const [offer, setOffer] = useState({} as Offer)
   const [isLoading, setIsLoading] = useState(false)
 
-  const { getToken } = useAuth()
+  const { user, getToken } = useAuth()
+  const navigate = useNavigate()
+
+  const onGoToCheckout = (mode: 'purchase' | 'rent') => {
+    const checkout: Checkout = {
+      id: offer._id!,
+      mode,
+    }
+
+    navigate('/checkout', { state: checkout })
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,17 +86,11 @@ const SingleOffer = () => {
       >
         <Carousel dotPosition='bottom' effect='fade'>
           <div style={carouselStyle}>
-            <Image
-              src={environment.baseImagesUrl + offer.images.featured}
-              style={imageStyle}
-            />
+            <Image src={offer.images.featured} style={imageStyle} />
           </div>
           {offer.images.other?.map((image) => (
             <div key={image} style={carouselStyle}>
-              <Image
-                src={environment.baseImagesUrl + image}
-                style={imageStyle}
-              />
+              <Image src={image} style={imageStyle} />
             </div>
           ))}
         </Carousel>
@@ -135,17 +139,32 @@ const SingleOffer = () => {
               </Space>
             </Space>
           </Space>
-          <Space direction='vertical'>
-            <Button type='primary' size='large'>
-              Purchase
-            </Button>
-            <Divider style={{ margin: 0 }}>
-              <Typography.Text type='secondary'>OR</Typography.Text>
-            </Divider>
-            <Button block type='link' size='large'>
-              Rent
-            </Button>
-          </Space>
+          {offer.user._id !== user!.id && (
+            <Space direction='vertical'>
+              <Button
+                type='primary'
+                size='large'
+                onClick={() => onGoToCheckout('purchase')}
+              >
+                Purchase
+              </Button>
+              {offer.is_for_rent && (
+                <>
+                  <Divider style={{ margin: 0 }}>
+                    <Typography.Text type='secondary'>OR</Typography.Text>
+                  </Divider>
+                  <Button
+                    block
+                    type='link'
+                    size='large'
+                    onClick={() => onGoToCheckout('rent')}
+                  >
+                    Rent
+                  </Button>
+                </>
+              )}
+            </Space>
+          )}
         </Space>
 
         <List

@@ -25,4 +25,6 @@ export const apiEndpoints: ApiEndpoints = {
   changePassword: { path: 'users/changePassword/{id}' },
 
   wallet: { path: 'wallet/' },
+
+  createTransaction: { path: 'transactions/' },
 }

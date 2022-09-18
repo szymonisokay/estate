@@ -1,9 +1,8 @@
 import { Button, Layout, List, Space, Spin, Tag, Typography } from 'antd'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useAuth } from '../../../contexts/auth/AuthContext'
-import { environment } from '../../../environment/environment'
 import { transformNumber } from '../../../helpers/TransformNumber'
 import { OfferType } from '../../../models/Offer.model'
 import { BookmarksService } from '../../../services/BookmarksService'
@@ -83,7 +82,7 @@ const Bookmarks = () => {
               ]}
               extra={
                 <img
-                  src={environment.baseImagesUrl + offer.images.featured}
+                  src={offer.images.featured}
                   alt={offer.title}
                   style={{
                     width: '250px',

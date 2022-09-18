@@ -14,6 +14,9 @@ import Offers from './pages/Account/components/Offers'
 import Bookmarks from './pages/Account/components/Bookmarks'
 import EditAccount from './pages/Account/components/EditAccount'
 import Dashboard from './pages/Account/components/Dashboard'
+import ProtectedRoute from './helpers/ProtectedRoute'
+import Checkout from './pages/Checkout'
+import Transactions from './pages/Account/components/Transactions'
 
 function App() {
   return (
@@ -23,17 +26,61 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='' element={<Home />} />
+          <Route
+            path=''
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/offers/:id' element={<SingleOffer />} />
-          <Route path='/offer/add' element={<AddOffer />} />
-          <Route path='/offer/edit/:id' element={<AddOffer />} />
-          <Route path='/account' element={<Account />}>
+          <Route
+            path='/offers/:id'
+            element={
+              <ProtectedRoute>
+                <SingleOffer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/offer/add'
+            element={
+              <ProtectedRoute>
+                <AddOffer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/offer/edit/:id'
+            element={
+              <ProtectedRoute>
+                <AddOffer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='checkout'
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/account'
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<Dashboard />} />
             <Route path='edit-account' element={<EditAccount />} />
             <Route path='offers' element={<Offers />} />
             <Route path='bookmarks' element={<Bookmarks />} />
+            <Route path='transactions' element={<Transactions />} />
           </Route>
         </Routes>
       </Router>

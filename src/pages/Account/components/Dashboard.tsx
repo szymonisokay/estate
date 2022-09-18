@@ -8,13 +8,14 @@ import {
   Space,
   Spin,
   Statistic,
+  Table,
   Tag,
   Typography,
 } from 'antd'
-import React, { useState, useEffect } from 'react'
+import moment from 'moment'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../../contexts/auth/AuthContext'
-import { environment } from '../../../environment/environment'
 import { transformNumber } from '../../../helpers/TransformNumber'
 import { OfferType } from '../../../models/Offer.model'
 import { Wallet } from '../../../models/Wallet.model'
@@ -112,7 +113,7 @@ const Dashboard = () => {
               ]}
               extra={
                 <img
-                  src={environment.baseImagesUrl + offer.images.featured}
+                  src={offer.images.featured}
                   alt={offer.title}
                   style={{
                     width: '250px',
@@ -136,6 +137,42 @@ const Dashboard = () => {
               />
             </List.Item>
           )}
+        />
+      </Layout.Content>
+
+      <Layout.Content>
+        <Typography.Title level={4}>Your transactions</Typography.Title>
+        <Table
+          pagination={false}
+          dataSource={
+            Object.keys(wallet).length === 0
+              ? []
+              : wallet.transactions.map((transaction) => ({
+                  ...transaction,
+                  key: transaction._id,
+                }))
+          }
+          columns={[
+            {
+              title: 'Date',
+              dataIndex: 'createdAt',
+              key: 'createdAt',
+              render: (date) => moment(date).format('MMM Do YYYY'),
+            },
+            { title: 'Offer', dataIndex: ['offer', 'title'], key: 'offer' },
+            {
+              title: 'Price',
+              dataIndex: ['offer', 'price'],
+              key: 'price',
+              render: (price) => `${transformNumber(price)} C`,
+            },
+            {
+              title: 'Status',
+              dataIndex: 'status',
+              key: 'status',
+              render: (status) => <Tag color='blue'>{status} </Tag>,
+            },
+          ]}
         />
       </Layout.Content>
     </Layout>

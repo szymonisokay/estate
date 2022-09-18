@@ -1,5 +1,5 @@
 import { Layout, Menu, MenuProps } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   BiBookmarks,
   BiBriefcaseAlt,
@@ -7,8 +7,7 @@ import {
   BiCreditCard,
   BiUser,
 } from 'react-icons/bi'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/auth/AuthContext'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const items: MenuProps['items'] = [
   {
@@ -50,7 +49,6 @@ const items: MenuProps['items'] = [
 const Account = () => {
   const [activeMenuItem, setActiveMenuItem] = useState(['dashboard'])
   const navigate = useNavigate()
-  const { user, getToken } = useAuth()
 
   const onMenuItemClick: MenuProps['onClick'] = ({ key }) => {
     let route = ''
@@ -67,6 +65,9 @@ const Account = () => {
         break
       case 'bookmarks':
         route = 'bookmarks'
+        break
+      case 'transactions':
+        route = 'transactions'
         break
     }
 

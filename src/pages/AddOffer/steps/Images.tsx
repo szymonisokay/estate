@@ -3,7 +3,6 @@ import Upload from 'antd/lib/upload'
 import React from 'react'
 import { BiPlus } from 'react-icons/bi'
 import { useAuth } from '../../../contexts/auth/AuthContext'
-import { environment } from '../../../environment/environment'
 import { OffersService } from '../../../services/OffersService'
 import { StepsComponentInterface } from '../../../config/steps.config'
 
@@ -68,7 +67,7 @@ const Images: React.FC<StepsComponentInterface> = ({ offer, updateOffer }) => {
       {offer.images.featured && (
         <>
           <Typography.Title level={4}>Your main image</Typography.Title>
-          <Image src={environment.baseImagesUrl + offer.images.featured} />
+          <Image src={offer.images.featured} />
         </>
       )}
       {!offer.images.featured && (
@@ -89,7 +88,7 @@ const Images: React.FC<StepsComponentInterface> = ({ offer, updateOffer }) => {
             <Col key={image} span={6} style={{ minHeight: '100px' }}>
               <Image
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                src={environment.baseImagesUrl + image}
+                src={image}
               />
             </Col>
           ))}
