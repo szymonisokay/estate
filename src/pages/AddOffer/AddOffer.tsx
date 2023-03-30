@@ -13,161 +13,160 @@ import Images from './steps/Images'
 import Localization from './steps/Localization'
 import { initialOffer } from '../../config/steps.config'
 import StepsIndicator from './StepsIndicator'
+import useMediaQuery from '../../hooks/useMediaQuery'
+import { MediaQueries } from '../../config/mediaQueries'
 
 const AddOffer = () => {
-  const [currentStep, setCurrentStep] = useState(0)
-  const [offer, setOffer] = useState(initialOffer as Offer)
-  const [isLoading, setIsLoading] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
-  const [message, setMessage] = useState('')
-  const [isEdit, setIsEdit] = useState(false)
+	const [currentStep, setCurrentStep] = useState(0)
+	const [offer, setOffer] = useState(initialOffer as Offer)
+	const [isLoading, setIsLoading] = useState(false)
+	const [isVisible, setIsVisible] = useState(false)
+	const [message, setMessage] = useState('')
+	const [isEdit, setIsEdit] = useState(false)
 
-  const { id } = useParams()
-  const { getToken } = useAuth()
-  const navigate = useNavigate()
+	const { id } = useParams()
+	const { getToken } = useAuth()
+	const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-        if (id) {
-          const response = await OffersService.getOffer(id, getToken())
-          setOffer(response.results as Offer)
-          setIsEdit(true)
-        }
-      } catch (error: any) {
-        setOffer(initialOffer)
-        navigate('/offer/add')
-      } finally {
-        setIsLoading(false)
-      }
-    }
+	const matchesXS = useMediaQuery(MediaQueries.XS)
+	const matchesLG = useMediaQuery(MediaQueries.LG)
 
-    if (!id) {
-      setOffer(initialOffer)
-    }
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				setIsLoading(true)
+				if (id) {
+					const response = await OffersService.getOffer(id, getToken())
+					setOffer(response.results as Offer)
+					setIsEdit(true)
+				}
+			} catch (error: any) {
+				setOffer(initialOffer)
+				navigate('/offer/add')
+			} finally {
+				setIsLoading(false)
+			}
+		}
 
-    fetchData()
+		if (!id) {
+			setOffer(initialOffer)
+		}
 
-    return () => {
-      setIsEdit(false)
-    }
-  }, [id, getToken, navigate])
+		fetchData()
 
-  const onAddOffer = async () => {
-    try {
-      setIsVisible(true)
-      setIsLoading(true)
-      const response = await OffersService.createOffer(offer, getToken())
-      setMessage(response.msg)
-      setOffer(response.offer)
-    } catch (error: any) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+		return () => {
+			setIsEdit(false)
+		}
+	}, [id, getToken, navigate])
 
-  const onEditOffer = async () => {
-    try {
-      setIsVisible(true)
-      setIsLoading(true)
-      const response = await OffersService.updateOffer(id!, offer, getToken())
-      setMessage(response.msg)
-      setOffer(response.offer)
-    } catch (error: any) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+	const onAddOffer = async () => {
+		try {
+			setIsVisible(true)
+			setIsLoading(true)
+			const response = await OffersService.createOffer(offer, getToken())
+			setMessage(response.msg)
+			setOffer(response.offer)
+		} catch (error: any) {
+			console.log(error)
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
-  const renderComponent = (currentStep: number) => {
-    switch (currentStep) {
-      case 0:
-        return <BasicInformation offer={offer} updateOffer={setOffer} />
-      case 1:
-        return <AdditionalInformation offer={offer} updateOffer={setOffer} />
-      case 2:
-        return <Facilities offer={offer} updateOffer={setOffer} />
-      case 3:
-        return <Images offer={offer} updateOffer={setOffer} />
-      case 4:
-        return <Localization offer={offer} updateOffer={setOffer} />
-    }
-  }
+	const onEditOffer = async () => {
+		try {
+			setIsVisible(true)
+			setIsLoading(true)
+			const response = await OffersService.updateOffer(id!, offer, getToken())
+			setMessage(response.msg)
+			setOffer(response.offer)
+		} catch (error: any) {
+			console.log(error)
+		} finally {
+			setIsLoading(false)
+		}
+	}
 
-  return (
-    <>
-      <Layout style={{ padding: '50px', flexDirection: 'row' }}>
-        <Layout.Content style={{ flex: 1 }}>
-          <StepsIndicator currentStep={currentStep} />
-        </Layout.Content>
-        {!isLoading ? (
-          <Layout.Content style={{ flex: 2 }}>
-            <Layout.Content
-              style={{
-                minHeight: '500px',
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: '15px',
-              }}
-            >
-              {renderComponent(currentStep)}
-            </Layout.Content>
-            <Layout.Content>
-              <Navigation
-                currentStep={currentStep}
-                isEdit={isEdit}
-                setCurrentStep={setCurrentStep}
-                onAddOffer={onAddOffer}
-                onEditOffer={onEditOffer}
-              />
-            </Layout.Content>
-          </Layout.Content>
-        ) : (
-          <Space align='center'>
-            <Spin />
-          </Space>
-        )}
-      </Layout>
-      <Modal
-        visible={isVisible}
-        title={isEdit ? 'Offer updated' : 'Offer created'}
-        onCancel={() => navigate('/')}
-        footer={[
-          <Button
-            key='create'
-            type='default'
-            onClick={() => navigate('/offer/add')}
-          >
-            Create new offer
-          </Button>,
-          <Button
-            key='navigate'
-            type='primary'
-            onClick={() => navigate(`/offers/${offer._id}`)}
-          >
-            Show your offer
-          </Button>,
-        ]}
-      >
-        <Space
-          direction='vertical'
-          style={{ width: '100%', alignItems: 'center' }}
-        >
-          {!isLoading ? (
-            <>
-              <FiCheckCircle size={25} color='#52c41a' />
-              <Typography.Text>{message}</Typography.Text>
-            </>
-          ) : (
-            <Spin />
-          )}
-        </Space>
-      </Modal>
-    </>
-  )
+	const renderComponent = (currentStep: number) => {
+		switch (currentStep) {
+			case 0:
+				return <BasicInformation offer={offer} updateOffer={setOffer} />
+			case 1:
+				return <AdditionalInformation offer={offer} updateOffer={setOffer} />
+			case 2:
+				return <Facilities offer={offer} updateOffer={setOffer} />
+			case 3:
+				return <Images offer={offer} updateOffer={setOffer} />
+			case 4:
+				return <Localization offer={offer} updateOffer={setOffer} />
+		}
+	}
+
+	return (
+		<>
+			<Layout
+				style={{
+					padding: matchesXS ? '20px' : '50px 20px',
+					flexDirection: matchesLG ? 'column' : 'row',
+				}}
+			>
+				<Layout.Content style={{ flex: 1 }}>
+					<StepsIndicator currentStep={currentStep} />
+				</Layout.Content>
+				{!isLoading ? (
+					<Layout.Content style={{ flex: 2, paddingTop: matchesLG ? '50px' : 0 }}>
+						<Layout.Content
+							style={{
+								minHeight: '500px',
+								display: 'flex',
+								flexDirection: 'column',
+								rowGap: '15px',
+							}}
+						>
+							{renderComponent(currentStep)}
+						</Layout.Content>
+						<Layout.Content>
+							<Navigation
+								currentStep={currentStep}
+								isEdit={isEdit}
+								setCurrentStep={setCurrentStep}
+								onAddOffer={onAddOffer}
+								onEditOffer={onEditOffer}
+							/>
+						</Layout.Content>
+					</Layout.Content>
+				) : (
+					<Space align='center'>
+						<Spin />
+					</Space>
+				)}
+			</Layout>
+			<Modal
+				visible={isVisible}
+				title={isEdit ? 'Offer updated' : 'Offer created'}
+				onCancel={() => navigate('/')}
+				footer={[
+					<Button key='create' type='default' onClick={() => navigate('/offer/add')}>
+						Create new offer
+					</Button>,
+					<Button key='navigate' type='primary' onClick={() => navigate(`/offers/${offer._id}`)}>
+						Show your offer
+					</Button>,
+				]}
+			>
+				<Space direction='vertical' style={{ width: '100%', alignItems: 'center' }}>
+					{!isLoading ? (
+						<>
+							<FiCheckCircle size={25} color='#52c41a' />
+							<Typography.Text>{message}</Typography.Text>
+						</>
+					) : (
+						<Spin />
+					)}
+				</Space>
+			</Modal>
+		</>
+	)
 }
 
 export default AddOffer

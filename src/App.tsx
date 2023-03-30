@@ -17,86 +17,97 @@ import Dashboard from './pages/Account/components/Dashboard'
 import ProtectedRoute from './helpers/ProtectedRoute'
 import Checkout from './pages/Checkout'
 import Transactions from './pages/Account/components/Transactions'
+import AllOffers from './pages/Account/components/AllOffers'
+import AllUsers from './pages/Account/components/AllUsers'
+import SingleUser from './pages/SingleUser'
 
 function App() {
-  return (
-    <Layout
-      style={{ minHeight: '100vh', maxWidth: '1400px', margin: '0 auto' }}
-    >
-      <Router>
-        <Header />
-        <Routes>
-          <Route
-            path=''
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route
-            path='/offers/:id'
-            element={
-              <ProtectedRoute>
-                <SingleOffer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/offer/add'
-            element={
-              <ProtectedRoute>
-                <AddOffer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/offer/edit/:id'
-            element={
-              <ProtectedRoute>
-                <AddOffer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='checkout'
-            element={
-              <ProtectedRoute>
-                <Checkout />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/account'
-            element={
-              <ProtectedRoute>
-                <Account />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path='edit-account' element={<EditAccount />} />
-            <Route path='offers' element={<Offers />} />
-            <Route path='bookmarks' element={<Bookmarks />} />
-            <Route path='transactions' element={<Transactions />} />
-          </Route>
-        </Routes>
-      </Router>
-      <ToastContainer
-        position='bottom-right'
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </Layout>
-  )
+	return (
+		<Layout style={{ minHeight: '100vh', maxWidth: '1400px', margin: '0 auto' }}>
+			<Router>
+				<Header />
+				<Routes>
+					<Route
+						path=''
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+					<Route
+						path='/offers/:id'
+						element={
+							<ProtectedRoute>
+								<SingleOffer />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/offer/add'
+						element={
+							<ProtectedRoute>
+								<AddOffer />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/offer/edit/:id'
+						element={
+							<ProtectedRoute>
+								<AddOffer />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='checkout'
+						element={
+							<ProtectedRoute>
+								<Checkout />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path='/account'
+						element={
+							<ProtectedRoute>
+								<Account />
+							</ProtectedRoute>
+						}
+					>
+						<Route index element={<Dashboard />} />
+						<Route path='edit-account' element={<EditAccount />} />
+						<Route path='offers' element={<Offers />} />
+						<Route path='bookmarks' element={<Bookmarks />} />
+						<Route path='transactions' element={<Transactions />} />
+						<Route path='all-offers' element={<AllOffers />} />
+						<Route path='all-users' element={<AllUsers />} />
+					</Route>
+					<Route
+						path='/users/:id'
+						element={
+							<ProtectedRoute>
+								<SingleUser />
+							</ProtectedRoute>
+						}
+					/>
+				</Routes>
+			</Router>
+			<ToastContainer
+				position='bottom-right'
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={true}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+		</Layout>
+	)
 }
 
 export default App

@@ -1,27 +1,32 @@
 export interface ApiEndpoint {
-  path: string
+	path: string
 }
 
 export interface ApiEndpoints {
-  login: ApiEndpoint
-  register: ApiEndpoint
+	login: ApiEndpoint
+	register: ApiEndpoint
 
-  getOffer: ApiEndpoint
-  getOffers: ApiEndpoint
-  getUserOffers: ApiEndpoint
-  updateOffer: ApiEndpoint
-  deleteOffer: ApiEndpoint
-  uploadOfferImage: ApiEndpoint
+	getOffer: ApiEndpoint
+	getOffers: ApiEndpoint
+	getUserOffers: ApiEndpoint
+	updateOffer: ApiEndpoint
+	deleteOffer: ApiEndpoint
+	uploadOfferImage: ApiEndpoint
+	getOffersAdmin: ApiEndpoint
 
-  bookmark: ApiEndpoint
-  removeBookmark: ApiEndpoint
-  populatedBookmarks: ApiEndpoint
+	bookmark: ApiEndpoint
+	removeBookmark: ApiEndpoint
+	populatedBookmarks: ApiEndpoint
 
-  getUser: ApiEndpoint
-  updateUser: ApiEndpoint
-  changePassword: ApiEndpoint
+	getUsers: ApiEndpoint
+	getUser: ApiEndpoint
+	getUserWithOffers: ApiEndpoint
+	updateUser: ApiEndpoint
+	deleteUser: ApiEndpoint
+	changePassword: ApiEndpoint
+	uploadAvatar: ApiEndpoint
 
-  wallet: ApiEndpoint
+	wallet: ApiEndpoint
 
-  createTransaction: ApiEndpoint
+	createTransaction: ApiEndpoint
 }

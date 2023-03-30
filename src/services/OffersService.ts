@@ -3,108 +3,123 @@ import { Offer, OfferType } from '../models/Offer.model'
 import { getEndpoint } from '../utils/api-endpoints.config'
 
 const getOffers = async (
-  type: 'purchase' | 'rent',
-  location: string,
-  minPrice: number,
-  maxPrice: number,
-  minArea: number,
-  maxArea: number,
-  sort: string,
-  token: string
+	type: 'purchase' | 'rent',
+	location: string,
+	minPrice: number,
+	maxPrice: number,
+	minArea: number,
+	maxArea: number,
+	sort: string,
+	token: string
 ) => {
-  const endpoint = getEndpoint('getOffers').path
-  const response = await axios.get<OfferType>(endpoint, {
-    params: {
-      type,
-      location,
-      minPrice,
-      maxPrice,
-      minArea,
-      maxArea,
-      sort,
-    },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const endpoint = getEndpoint('getOffers').path
+	const response = await axios.get<OfferType>(endpoint, {
+		params: {
+			type,
+			location,
+			minPrice,
+			maxPrice,
+			minArea,
+			maxArea,
+			sort,
+		},
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data
+	return response.data
 }
 
 const getOffer = async (id: string, token: string) => {
-  const endpoint = getEndpoint('getOffer').path.replace('{id}', id)
-  const response = await axios.get<OfferType>(endpoint, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const endpoint = getEndpoint('getOffer').path.replace('{id}', id)
+	const response = await axios.get<OfferType>(endpoint, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data
+	return response.data
 }
 
 const createOffer = async (offer: Offer, token: string) => {
-  const endpoint = getEndpoint('getOffers').path
-  const response = await axios.post(endpoint, offer, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const endpoint = getEndpoint('getOffers').path
+	const response = await axios.post(endpoint, offer, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data as { msg: string; offer: Offer }
+	return response.data as { msg: string; offer: Offer }
 }
 
 const getUserOffers = async (id: string, token: string) => {
-  const endpoint = getEndpoint('getUserOffers').path.replace('{id}', id)
-  const response = await axios.get<OfferType>(endpoint, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const endpoint = getEndpoint('getUserOffers').path.replace('{id}', id)
+	const response = await axios.get<OfferType>(endpoint, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data
+	return response.data
 }
 
 const updateOffer = async (id: string, offer: Offer, token: string) => {
-  const endpoint = getEndpoint('updateOffer').path.replace('{id}', id)
+	const endpoint = getEndpoint('updateOffer').path.replace('{id}', id)
 
-  const response = await axios.put(endpoint, offer, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const response = await axios.put(endpoint, offer, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data as { msg: string; offer: Offer }
+	return response.data as { msg: string; offer: Offer }
 }
 
 const deleteOffer = async (id: string, token: string) => {
-  const endpoint = getEndpoint('deleteOffer').path.replace('{id}', id)
+	const endpoint = getEndpoint('deleteOffer').path.replace('{id}', id)
 
-  const response = await axios.delete(endpoint, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+	const response = await axios.delete(endpoint, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
 
-  return response.data as { msg: string; offers: OfferType }
+	return response.data as { msg: string; offers: OfferType }
 }
 
 const uploadImage = async (formData: FormData, token: string) => {
-  const endpoint = getEndpoint('uploadOfferImage').path
+	const endpoint = getEndpoint('uploadOfferImage').path
 
-  const response = await axios.post(endpoint, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  return response.data as { msg: string; file: any; is_featured: boolean }
+	const response = await axios.post(endpoint, formData, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
+	return response.data as { msg: string; file: any; is_featured: boolean }
+}
+
+// Admin action
+
+const getAllOffersAdmin = async (token: string) => {
+	const endpoint = getEndpoint('getOffersAdmin').path
+
+	const response = await axios.get<OfferType>(endpoint, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	})
+
+	return response.data
 }
 
 export const OffersService = {
-  getOffer,
-  getOffers,
-  getUserOffers,
-  createOffer,
-  updateOffer,
-  deleteOffer,
-  uploadImage,
+	getOffer,
+	getOffers,
+	getUserOffers,
+	createOffer,
+	updateOffer,
+	deleteOffer,
+	uploadImage,
+	getAllOffersAdmin,
 }

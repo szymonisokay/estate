@@ -5,84 +5,89 @@ import { useAuth } from '../contexts/auth/AuthContext'
 import { BiDotsHorizontal } from 'react-icons/bi'
 import { userMenu } from '../config/UserMenu.config'
 import { Avatar, Button, Dropdown, Menu, MenuProps, Space } from 'antd'
+import useMediaQuery from '../hooks/useMediaQuery'
+import { MediaQueries } from '../config/mediaQueries'
 
 const Header = () => {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const { user, signOut, checkTokenExpiration } = useAuth()
+	const navigate = useNavigate()
+	const { pathname } = useLocation()
+	const { user, signOut, checkTokenExpiration } = useAuth()
 
-  const isShown = pathname.includes('login') || pathname.includes('register')
+	const matches = useMediaQuery(MediaQueries.XS)
 
-  const onitemClick: MenuProps['onClick'] = ({ key }) => {
-    const action = userMenu.find((item) => item.key === key)?.action
+	const isShown = pathname.includes('login') || pathname.includes('register')
 
-    switch (action) {
-      case 'navigateAccount':
-        navigate('/account')
-        break
-      case 'navigateOffers':
-        navigate('/account/offers')
-        break
-      case 'navigateBookmarks':
-        navigate('/account/bookmarks')
-        break
-      case 'logOut':
-        signOut()
-        navigate('/login')
-        break
-    }
-  }
+	const onItemClick: MenuProps['onClick'] = ({ key }) => {
+		const action = userMenu.find((item) => item.key === key)?.action
 
-  useEffect(() => {
-    const isExpired = checkTokenExpiration()
+		switch (action) {
+			case 'addOffer':
+				navigate('/offer/add')
+				break
+			case 'navigateAccount':
+				navigate('/account')
+				break
+			case 'navigateOffers':
+				navigate('/account/offers')
+				break
+			case 'navigateBookmarks':
+				navigate('/account/bookmarks')
+				break
+			case 'logOut':
+				signOut()
+				navigate('/login')
+				break
+		}
+	}
 
-    if (!!isExpired) return signOut()
-  }, [user, checkTokenExpiration, signOut])
+	const onMainItemClick = () => {
+		navigate('/account')
+	}
 
-  const menu = <Menu onClick={onitemClick} items={userMenu} />
+	useEffect(() => {
+		const isExpired = checkTokenExpiration()
 
-  return (
-    <>
-      {!isShown && (
-        <Space
-          style={{
-            width: '100%',
-            justifyContent: 'space-between',
-            padding: '20px 30px',
-            background: '#f0f2f5',
-          }}
-        >
-          <Link to='/'>
-            <Logo className='logo' />
-          </Link>
-          <Space>
-            <Dropdown.Button
-              overlay={menu}
-              placement='bottomRight'
-              icon={<BiDotsHorizontal size={22} style={{ marginTop: '3px' }} />}
-              trigger={['click']}
-              size='large'
-            >
-              <Space style={{ columnGap: '5px', alignItems: 'center' }}>
-                {user?.image && (
-                  <Avatar shape='square' size='small' src={user.image} />
-                )}
-                {user?.username}
-              </Space>
-            </Dropdown.Button>
+		if (!!isExpired) return signOut()
+	}, [user, checkTokenExpiration, signOut])
 
-            <Button
-              onClick={() => navigate('/offer/add')}
-              type='primary'
-              size='large'
-            >
-              Add offer
-            </Button>
-          </Space>
-        </Space>
-      )}
-    </>
-  )
+	const menu = <Menu onClick={onItemClick} items={userMenu} />
+
+	return (
+		<>
+			{!isShown && (
+				<Space
+					style={{
+						width: '100%',
+						justifyContent: 'space-between',
+						padding: '20px 30px',
+						background: '#f0f2f5',
+					}}
+				>
+					<Link to='/'>
+						<Logo className='logo' />
+					</Link>
+					<Space>
+						<Dropdown.Button
+							overlay={menu}
+							placement='bottomRight'
+							icon={<BiDotsHorizontal size={22} style={{ marginTop: '3px' }} />}
+							trigger={['click']}
+							size='large'
+							onClick={onMainItemClick}
+						>
+							{user?.username}
+						</Dropdown.Button>
+
+						{!matches && (
+							<Button onClick={() => navigate('/offer/add')} type='primary' size='large'>
+								Add offer
+							</Button>
+						)}
+					</Space>
+				</Space>
+			)}
+		</>
+	)
 }
 
 export default Header
